@@ -14,13 +14,16 @@
   --bg-secondary: #f0fdf4;
   --text: #1c1c1c;
   --sub-text: #6b7280;
-  --border: #e5e7eb;
+  --border: #c8c8c8;
   --card-bg: #ffffff;
   --card-border: #e5e7eb;
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #2F2B45;
 }
 
 .dark {
-  --primary: #34d399;
+  --primary: #239c6f;
   --secondary: #9acdad;
   --bg-primary: #24262b;
   --bg-secondary: #050d16;
@@ -29,6 +32,7 @@
   --border: #374151;
   --card-bg: #1f2937;
   --card-border: #374151;
+  --gray: #050D16;
 }
 
 * {

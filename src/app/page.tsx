@@ -1,16 +1,33 @@
-import React from 'react'
+import React from "react";
+import Container from "@/components/Container";
+import Carousel from "@/components/Carousel";
+import FindScheme from "@/components/FindScheme";
+// Import images
+import img1 from "@/public/Images/banner/1.jpg";
+import img2 from "@/public/Images/banner/2.jpg";
+import img3 from "@/public/Images/banner/3.jpg";
+import img4 from "@/public/Images/banner/4.jpg";
+import img5 from "@/public/Images/banner/5.jpg";
+import img6 from "@/public/Images/banner/6.jpg";
+
+const carouselImages = [
+  { src: img1, link: "/schemes/1" },
+  { src: img2, link: "/schemes/2" },
+  { src: img3, link: "/schemes/3" },
+  { src: img4, link: "/schemes/4" },
+  { src: img5, link: "/schemes/5" },
+  { src: img6, link: "/schemes/6" },
+];
 
 const page = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1 className="text-4xl font-bold text-[var(--primary)] dark:text-[var(--secondary)]">MyScheme</h1>
-      <p className="text-lg text-[var(--secondary)] dark:text-[var(--primary)]">MyScheme is a platform for creating and managing your schemes.</p>
-      <button className="mt-4 bg-[var(--primary)] dark:bg-[var(--secondary)] text-[var(--secondary)] dark:text-[var(--primary)] px-4 py-2 rounded hover:bg-[var(--secondary)] dark:hover:bg-[var(--primary)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2">Get Started</button>
-      <footer className="mt-4">
-        <p className="text-[var(--secondary)] dark:text-[var(--primary)]">© 2025 MyScheme. All rights reserved.</p>
-      </footer>
-    </div>
-  )
-}
+    <>
+      <Carousel images={carouselImages} autoSlideInterval={5000} />
+      <Container>
+        <FindScheme />
+      </Container>
+    </>
+  );
+};
 
-export default page
+export default page;
