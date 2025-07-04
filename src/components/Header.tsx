@@ -14,6 +14,7 @@ import { Button } from "./ui/Button";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import Line from "./Line";
+import SocialMedia from "./SocialMedia";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -179,6 +180,9 @@ const Header: React.FC = () => {
             </a>
           </nav>
           <Line />
+
+          {/* Social Media */}
+          <SocialMedia />
 
           {/* Language Toggle in Sidebar */}
           <div className="mt-auto">
