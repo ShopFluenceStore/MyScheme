@@ -150,6 +150,7 @@ const Header: React.FC = () => {
               <Search className="h-5 w-5 text-[var(--muted-foreground)]" />
             </div>
             <input
+              onClick={() => router.push(link)}
               type="text"
               placeholder="Enter scheme name to search..."
               className="w-full rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] py-2.5 px-6 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300 shadow-sm"
