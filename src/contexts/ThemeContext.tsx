@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -11,41 +11,43 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+// Helper function to get theme from localStorage
+const getStoredTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light';
+  const stored = localStorage.getItem('theme') as Theme | null;
+  return stored || 'light';
+};
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
-  // Set the theme on initial load
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme') as Theme | null;
-    
-    // Always default to light theme if no stored preference
-    const initialTheme = storedTheme || 'light';
-    setTheme(initialTheme);
-    
-    if (initialTheme === 'dark') {
+  // Apply theme class to document element
+  const applyTheme = useCallback((theme: Theme) => {
+    if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    
-    setMounted(true);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => {
+  // Set the theme on initial load
+  useEffect(() => {
+    const initialTheme = getStoredTheme();
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
+    setMounted(true);
+  }, [applyTheme]);
+
+  // Toggle theme and save to localStorage
+  const toggleTheme = useCallback(() => {
+    setTheme(prevTheme => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
-      
-      if (newTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      
+      applyTheme(newTheme);
       return newTheme;
     });
-  };
+  }, [applyTheme]);
 
   // Only render children once the theme is set
   if (!mounted) {
