@@ -3,8 +3,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 // Import logo images
-import logo1 from "@/public/Images/logo/logo1.svg";
-import logo2 from "@/public/Images/logo/logo2.svg";
+import logo1 from "/public/images/logo/logo1.svg";
+import logo2 from "/public/images/logo/logo2.svg";
 import Link from "next/link";
 
 type LogoVariant = "text" | "image1" | "image2";

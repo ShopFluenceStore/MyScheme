@@ -3,12 +3,12 @@ import Container from "@/components/Container";
 import Carousel from "@/components/Carousel";
 import FindScheme from "@/components/FindScheme";
 // Import images
-import img1 from "@/public/Images/banner/1.jpg";
-import img2 from "@/public/Images/banner/2.jpg";
-import img3 from "@/public/Images/banner/3.jpg";
-import img4 from "@/public/Images/banner/4.jpg";
-import img5 from "@/public/Images/banner/5.jpg";
-import img6 from "@/public/Images/banner/6.jpg";
+import img1 from "/public/images/banner/1.jpg";
+import img2 from "/public/images/banner/2.jpg";
+import img3 from "/public/images/banner/3.jpg";
+import img4 from "/public/images/banner/4.jpg";
+import img5 from "/public/images/banner/5.jpg";
+import img6 from "/public/images/banner/6.jpg";
 
 const carouselImages = [
   { src: img1, link: "/schemes/1" },

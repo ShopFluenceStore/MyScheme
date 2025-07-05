@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Logo from "./Logo";
 import Image from "next/image";
-import language from "../public/Images/language.svg";
+import language from "/public/images/language.svg";
 import { Button } from "./ui/Button";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";

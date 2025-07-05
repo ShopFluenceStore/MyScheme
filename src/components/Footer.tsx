@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
     },
     {
       name: "NIC",
-      src: "/images/banner/7.jpg",
+      src: "/images/banner/1.jpg",
       alt: "NIC",
     },
   ];
