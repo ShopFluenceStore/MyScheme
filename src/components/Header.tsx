@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SunIcon,
   MoonIcon,
@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import Line from "./Line";
 import SocialMedia from "./SocialMedia";
+import { cn } from "@/lib/utils";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -24,6 +25,33 @@ const Header: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scrollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        cancelAnimationFrame(scrollRef.current);
+      }
+
+      scrollRef.current = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 30);
+      });
+    };
+
+    // Use passive scroll for better performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      if (scrollRef.current) {
+        cancelAnimationFrame(scrollRef.current);
+      }
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -35,14 +63,26 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 w-full border-b border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text)] shadow-sm z-30">
+      <header
+        className={cn(
+          "sticky top-0 left-0 right-0 w-full border-b border-[var(--border)] bg-[var(--bg-primary)] dark:bg-[var(--bg-primary)] text-[var(--text)] z-30",
+          "transition-[padding,box-shadow] duration-200 ease-out will-change-transform",
+          isScrolled ? "shadow-lg py-2" : "py-1.5"
+        )}
+        style={{
+          // Use transform for better performance
+          transform: "translateZ(0)",
+          backfaceVisibility: "hidden",
+          WebkitFontSmoothing: "subpixel-antialiased",
+        }}
+      >
         <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           {/* Left Section */}
           <div className="flex items-center gap-3 sm:gap-4">
             <Logo variant="image1" className="hidden sm:block" />
-            <div className="h-8 w-0.5 bg-[var(--black)] dark:bg-[var(--black)] hidden sm:block"></div>
+            <div className="h-8 w-0.5 bg-[var(--border)] dark:bg-[var(--border)] hidden sm:block"></div>
             <Logo variant="text" />
-            <div className="h-8 w-0.5 bg-[var(--black)] dark:bg-[var(--black)] hidden sm:block"></div>
+            <div className="h-8 w-0.5 bg-[var(--border)] dark:bg-[var(--border)] hidden sm:block"></div>
             <Logo variant="image2" className="hidden sm:block" />
           </div>
 

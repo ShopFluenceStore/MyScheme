@@ -2,6 +2,7 @@ import React from "react";
 import Container from "@/components/Container";
 import Carousel from "@/components/Carousel";
 import FindScheme from "@/components/FindScheme";
+import FAQ from "@/components/FAQ";
 // Import images
 import img1 from "/public/images/banner/1.jpg";
 import img2 from "/public/images/banner/2.jpg";
@@ -25,6 +26,7 @@ const page = () => {
       <Carousel images={carouselImages} autoSlideInterval={5000} />
       <Container>
         <FindScheme />
+        <FAQ limit={3} />
       </Container>
     </>
   );
