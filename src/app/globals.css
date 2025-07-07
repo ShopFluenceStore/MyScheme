@@ -20,6 +20,7 @@
   --black: #000000;
   --white: #ffffff;
   --gray: #2F2B45;
+  --error: #ef4444;
 }
 
 .dark {
@@ -33,6 +34,7 @@
   --card-bg: #1f2937;
   --card-border: #374151;
   --gray: #050D16;
+  --error: #ef4444;
 }
 
 * {

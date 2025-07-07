@@ -13,7 +13,7 @@ const MinistryCard = ({ ministry }: { ministry: MinistryData }) => (
   >
     <div className="flex items-start space-x-3">
       <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" 
-           style={{ backgroundColor: 'var(--input-bg)', color: 'var(--primary)' }}>
+           style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--primary)' }}>
         <Building className="w-5 h-5" />
       </div>
       
@@ -22,7 +22,7 @@ const MinistryCard = ({ ministry }: { ministry: MinistryData }) => (
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-1">
               <span className="inline-block px-2 py-1 text-xs font-medium rounded" 
-                    style={{ backgroundColor: 'var(--input-bg)', color: 'var(--primary)' }}>
+                    style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--primary)' }}>
                 {ministry.category}
               </span>
               <span className="text-xs font-medium" style={{ color: 'var(--primary)' }}>
@@ -33,10 +33,10 @@ const MinistryCard = ({ ministry }: { ministry: MinistryData }) => (
               {ministry.name}
             </h4>
           </div>
-          <ArrowRight className="w-3 h-3 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors flex-shrink-0 mt-1" />
+          <ArrowRight className="w-3 h-3 text-[var(--sub-text)] group-hover:text-[var(--primary)] transition-colors flex-shrink-0 mt-1" />
         </div>
         
-        <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+        <p className="text-xs text-[var(--sub-text)] leading-relaxed">
           {ministry.description}
         </p>
       </div>
@@ -70,19 +70,19 @@ const CentralMinistries: React.FC = () => {
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-500">{error}</div>;
+    return <div className="text-center py-8 text-[var(--error)]">{error}</div>;
   }
   return (
     <div className="space-y-8">
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: 'var(--input-bg)', color: 'var(--primary)' }}>
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--primary)' }}>
           <Building className="w-4 h-4" />
           <span>Government Ministries</span>
         </div>
         <h2 className="text-2xl lg:text-3xl font-bold" style={{ color: 'var(--text)' }}>
           Browse by Central Ministries
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-[var(--sub-text)] max-w-2xl mx-auto">
           Explore schemes from 36 Central Ministries and discover programs tailored to your needs
         </p>
       </div>
@@ -93,7 +93,7 @@ const CentralMinistries: React.FC = () => {
             <MinistryCard key={ministry.name} ministry={ministry} />
           ))
         ) : (
-          <div className="col-span-full text-center py-8 text-gray-500">
+          <div className="col-span-full text-center py-8 text-[var(--sub-text)]">
             No ministries found
           </div>
         )}

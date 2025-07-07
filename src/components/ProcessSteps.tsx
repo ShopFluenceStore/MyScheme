@@ -57,7 +57,7 @@ const ProcessSteps: React.FC = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-[var(--text)] mb-4">
               Easy steps to apply for Government Schemes
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-[var(--sub-text)] max-w-2xl mx-auto">
               Follow these simple steps to discover and apply for government
               schemes that match your profile
             </p>
@@ -71,7 +71,7 @@ const ProcessSteps: React.FC = () => {
                 <React.Fragment key={step.id}>
                   {/* Step Card */}
                   <div className="flex-1 max-w-sm">
-                    <div className="bg-[var(--bg-secondary)] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-[var(--border)] relative group">
+                    <div className="bg-[var(--bg-primary)] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-[var(--border)] relative group">
                       {/* Step Number */}
                       <div className="absolute -top-4 left-8 w-8 h-8 bg-[var(--primary)] text-[var(--bg-secondary)] rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
                         {step.id}
@@ -86,7 +86,7 @@ const ProcessSteps: React.FC = () => {
                       <h3 className="text-xl font-bold text-[var(--text)] mb-3">
                         {step.title}
                       </h3>
-                      <p className="text-[var(--text)] leading-relaxed">
+                      <p className="text-[var(--sub-text)] leading-relaxed">
                         {step.description}
                       </p>
                     </div>
@@ -109,7 +109,7 @@ const ProcessSteps: React.FC = () => {
               {steps.map((step, index) => (
                 <React.Fragment key={step.id}>
                   {/* Step Card */}
-                  <div className="bg-[var(--bg-secondary)] rounded-2xl p-6 shadow-lg border border-[var(--border)] relative">
+                  <div className="bg-[var(--bg-primary)] rounded-2xl p-6 shadow-lg border border-[var(--border)] relative">
                     {/* Step Number */}
                     <div className="absolute -top-3 left-6 w-6 h-6 bg-[var(--primary)] text-[var(--bg-secondary)] rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
                       {step.id}
@@ -126,7 +126,7 @@ const ProcessSteps: React.FC = () => {
                         <h3 className="text-lg font-bold text-[var(--text)] mb-2">
                           {step.title}
                         </h3>
-                        <p className="text-[var(--text)] text-sm leading-relaxed">
+                        <p className="text-[var(--sub-text)] text-sm leading-relaxed">
                           {step.description}
                         </p>
                       </div>

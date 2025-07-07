@@ -32,14 +32,14 @@ const StatesUTs: React.FC = () => {
       {/* Header Section */}
       <div className="text-center space-y-4">
         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-medium" 
-             style={{ backgroundColor: 'var(--input-bg)', color: 'var(--primary)' }}>
+             style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--primary)' }}>
           <MapPin className="w-4 h-4" />
           <span>Regional Schemes</span>
         </div>
         <h2 className="text-2xl lg:text-3xl font-bold" style={{ color: 'var(--text)' }}>
           Browse by States & UTs
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-[var(--sub-text)] max-w-2xl mx-auto">
           Discover {statesData.reduce((sum, state) => sum + state.schemes, 0).toLocaleString()}+ schemes across India
         </p>
       </div>
@@ -60,7 +60,7 @@ const StatesUTs: React.FC = () => {
                 <div className="flex items-start space-x-3">
                   <div 
                     className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${regionColor}`} 
-                    style={{ backgroundColor: 'var(--input-bg)' }}
+                    style={{ backgroundColor: 'var(--bg-primary)' }}
                   >
                     <Flag className="w-5 h-5" />
                   </div>
@@ -74,7 +74,7 @@ const StatesUTs: React.FC = () => {
                           <span 
                             className="inline-block px-2 py-0.5 text-xs font-medium rounded-full" 
                             style={{ 
-                              backgroundColor: 'var(--input-bg)', 
+                              backgroundColor: 'var(--bg-primary)', 
                               color: regionColor 
                             }}
                           >
@@ -82,17 +82,17 @@ const StatesUTs: React.FC = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1 text-xs font-medium" style={{ color: 'var(--primary)' }}>
+                      <div className="flex items-center space-x-1 text-xs font-medium" style={{ color: 'var(--sub-text)' }}>
                         <span>{state.schemes}</span>
                         <span>schemes</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between mt-3">
-                      <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center space-x-1 text-xs text-[var(--sub-text)]">
                         <MapPin className="w-3 h-3" />
                         <span>View details</span>
                       </div>
-                      <ChevronDown className="w-4 h-4 text-gray-400 transform transition-transform group-hover:translate-x-1" />
+                      <ChevronDown className="w-4 h-4 text-[var(--sub-text)] transform transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
                 </div>

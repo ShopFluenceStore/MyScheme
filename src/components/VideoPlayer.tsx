@@ -17,7 +17,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   videoId,
   title,
   className = '',
-  thumbnailUrl = 'https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop',
+  thumbnailUrl = '/images/VideoThumbnail.webp',
   description = 'Discover how we\'re transforming access to government schemes',
   duration = '2:45',
   showThumbnail = true,
@@ -85,29 +85,33 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     </div>
   ) : (
     <div className={`relative rounded-3xl overflow-hidden shadow-2xl bg-[var(--bg-primary)] ${className}`}>
-      <div className="aspect-video">
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-          title={title}
-          className="w-full h-full"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
+    <div className="aspect-video">
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+        title={title}
+        className="w-full h-full"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
     </div>
+  </div>
   );
-
+  
   return (
-    <div className="relative">
-      {/* Enhanced Layered Shadows */}
+    <div className="relative w-full">
+      {/* Enhanced Layered Shadows - Only on larger screens */}
       <div className="relative">
         {/* Shadow Layer 3 */}
-        <div className="absolute inset-0 rounded-3xl transform translate-x-6 translate-y-6 opacity-10 bg-[var(--primary)]"></div>
-
+        <div className="absolute inset-0 rounded-3xl transform translate-x-6 translate-y-6 opacity-10 bg-[var(--primary)] hidden md:block"></div>
+  
         {/* Shadow Layer 2 */}
-        <div className="absolute inset-0 rounded-3xl transform translate-x-3 translate-y-3 opacity-20 bg-[var(--primary)]"></div>
-
+        <div className="absolute inset-0 rounded-3xl transform translate-x-3 translate-y-3 opacity-20 bg-[var(--primary)] hidden md:block"></div>
+  
+        {/* Mobile Shadow - Down Direction Only */}
+        <div className="absolute inset-x-0 bottom-0 h-8 rounded-b-3xl transform translate-y-6 opacity-10 bg-[var(--primary)] md:hidden"></div>
+        <div className="absolute inset-x-0 bottom-0 h-8 rounded-b-3xl transform translate-y-3 opacity-20 bg-[var(--primary)] md:hidden"></div>
+  
         {/* Main Video Container */}
         {videoPlayerContent}
       </div>

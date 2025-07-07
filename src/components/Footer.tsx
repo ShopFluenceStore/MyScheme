@@ -12,13 +12,13 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    "About Us",
-    "Contact Us",
-    "Screen Reader",
-    "Accessibility Statement",
-    "Frequently Asked Questions",
-    "Disclaimer",
-    "Terms & Conditions",
+    {name:"About Us", href:"/about"},
+    {name:"Contact Us", href:"/contact"},
+    {name:"Screen Reader", href:"/screen-reader"},
+    {name:"Accessibility Statement", href:"/accessibility-statement"},
+    {name:"Frequently Asked Questions", href:"/faq"},
+    {name:"Disclaimer", href:"/disclaimer"},
+    {name:"Terms & Conditions", href:"/terms"},
   ];
 
   const usefulLogos = [
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative bg-[var(--gray)] text-white">
+    <footer className="relative bg-[var(--gray)] text-[var(--white)]">
       <CurvedLine variant="gray" />
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 lg:pt-12 lg:pb-16">
@@ -99,11 +99,11 @@ const Footer: React.FC = () => {
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <a
-                    href="#"
-                    className="flex items-center text-white hover:text-white transition-colors duration-200 group"
+                    href={link.href}
+                    className="flex items-center text-[var(--white)] hover:text-[var(--primary)] transition-colors duration-200 group"
                   >
                     <ChevronRight className="w-4 h-4 mr-2 text-[var(--primary)] group-hover:translate-x-1 transition-transform duration-200" />
-                    <span className="text-sm">{link}</span>
+                    <span className="text-sm">{link.name}</span>
                   </a>
                 </li>
               ))}
@@ -135,7 +135,7 @@ const Footer: React.FC = () => {
           {/* Right Column - Get in Touch */}
           <div>
             <h3 className="text-xl font-bold mb-6">Get in touch</h3>
-            <div className="space-y-4 text-sm text-white">
+            <div className="space-y-4 text-sm text-[var(--white)]">
               {/* Address */}
               <div>
                 <p className="leading-relaxed">
@@ -152,7 +152,7 @@ const Footer: React.FC = () => {
                 <p>
                   support-
                   <br />
-                  myscheme[at]digitalindia[dot]gov[dot]in
+                  myscheme@digitalindia.gov.in
                 </p>
               </div>
 

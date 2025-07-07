@@ -143,7 +143,9 @@ const Carousel: React.FC<CarouselProps> = ({
                     <Image
                       src={image.src}
                       alt={`Slide ${index + 1}`}
-                      fill
+                      // fill
+                      width={1920}
+                      height={1080}
                       priority={index === 0}
                       className="w-full h-full object-cover xs:object-contain sm:object-cover transition-opacity duration-700 ease-in-out"
                       sizes="(max-width: 480px) 100vw, (max-width: 768px) 90vw, (max-width: 1200px) 85vw, 100vw"
@@ -158,7 +160,9 @@ const Carousel: React.FC<CarouselProps> = ({
                   <Image
                     src={image as string | StaticImageData}
                     alt={`Slide ${index + 1}`}
-                    fill
+                    // fill
+                    width={1920}
+                    height={1080}
                     priority={index === 1}
                     className="w-full h-full object-cover xs:object-contain sm:object-cover transition-opacity duration-700 ease-in-out"
                     sizes="(max-width: 480px) 100vw, (max-width: 768px) 90vw, (max-width: 1200px) 85vw, 100vw"

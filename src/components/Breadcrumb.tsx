@@ -50,34 +50,46 @@ const Breadcrumb = () => {
   // Don't render anything on home page
   if (pathname === '/' || breadcrumbs.length === 0) return null;
 
+  // Get the current page name (last breadcrumb)
+  const currentPage = breadcrumbs[breadcrumbs.length - 1]?.label || 'Home';
+
   return (
-    <nav className="py-2 px-4 bg-[var(--bg-secondary)] border border-[var(--border)] mx-8 my-2 rounded-lg" aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-1 text-sm">
-        {breadcrumbs.map((breadcrumb, index) => (
-          <Fragment key={breadcrumb.href}>
+    <div className="relative py-4 px-6 bg-[var(--bg-secondary)] border border-[var(--border)] mx-8 my-4 rounded-lg">
+
+      {/* Centered current page name */}
+      <h1 className="text-center text-3xl font-semibold text-[var(--text)] mb-2">
+        {currentPage}
+      </h1>
+      
+      {/* Left-aligned breadcrumb navigation with current page */}
+      <nav aria-label="Breadcrumb" className="flex justify-center py-2">
+        <ol className="flex items-center text-sm text-[var(--text)]">
+          {breadcrumbs.map((breadcrumb, index) => (
+            <Fragment key={breadcrumb.href}>
             {index > 0 ? (
               <ChevronRight key={`chevron-${index}`} className="h-4 w-4 text-[var(--primary)] mx-1" />
             ) : (
               <HomeIcon key="home-icon" className="h-4 w-4 text-[var(--primary)] mr-1" />
             )}
-            <li className="flex items-center">
-              {breadcrumb.isActive ? (
+              <li className="flex items-center">
+                {breadcrumb.isActive ? (
                 <span className="text-[var(--primary)]">
-                  {breadcrumb.label}
-                </span>
-              ) : (
-                <Link
-                  href={breadcrumb.href}
+                    {breadcrumb.label}
+                  </span>
+                ) : (
+                    <Link
+                      href={breadcrumb.href}
                   className="text-[var(--text)] hover:text-[var(--primary)] transition-colors duration-200"
-                >
-                  {breadcrumb.label}
-                </Link>
-              )}
-            </li>
-          </Fragment>
-        ))}
-      </ol>
-    </nav>
+                    >
+                      {breadcrumb.label}
+                    </Link>
+                )}
+              </li>
+            </Fragment>
+          ))}
+        </ol>
+      </nav>
+    </div>
   );
 };
 
