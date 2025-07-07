@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from './ui/Button';
-
+import Image from 'next/image';
 interface VideoPlayerProps {
   videoId: string;
   title: string;
@@ -32,10 +32,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     <div className={`relative rounded-3xl overflow-hidden shadow-2xl bg-[var(--bg-primary)] ${className}`}>
         {/* Enhanced Video Thumbnail */}
         <div className="relative aspect-video">
-          <img
+          <Image
             src={thumbnailUrl}
             alt={title}
             className="w-full h-full object-cover"
+            width={1000}
+            height={1000}
           />
 
           {/* Enhanced Video Overlay */}

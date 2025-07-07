@@ -40,7 +40,7 @@ const About: React.FC = () => {
             {/* Enhanced Content Paragraphs */}
             <div className="space-y-6 text-[var(--sub-text)]">
               <p className="text-lg leading-relaxed">
-                myScheme is India's most comprehensive digital platform,
+                myScheme is Indias most comprehensive digital platform,
                 connecting millions of citizens with over{" "}
                 <strong className="font-semibold text-[var(--primary)]">
                   4,000+ government schemes

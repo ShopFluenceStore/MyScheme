@@ -4,7 +4,6 @@ import {
   FileSearch,
   MousePointer,
   ArrowRight,
-  MessageCircle,
 } from "lucide-react";
 import CurvedLine from "./CurvedLine";
 import { Button } from "./ui/Button";
