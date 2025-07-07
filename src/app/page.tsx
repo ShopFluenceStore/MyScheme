@@ -1,8 +1,11 @@
 import React from "react";
-import Container from "@/components/Container";
+// import Container from "@/components/Container";
 import Carousel from "@/components/Carousel";
 import FindScheme from "@/components/FindScheme";
 import FAQ from "@/components/FAQ";
+import SchemeTabs from "@/components/SchemeTabs";
+import ProcessSteps from "@/components/ProcessSteps";
+import About from "@/components/About";
 // Import images
 import img1 from "/public/images/banner/1.jpg";
 import img2 from "/public/images/banner/2.jpg";
@@ -24,10 +27,13 @@ const page = () => {
   return (
     <>
       <Carousel images={carouselImages} autoSlideInterval={5000} />
-      <Container>
+      {/* <Container> */}
         <FindScheme />
+        <SchemeTabs />
+        <ProcessSteps />
+        <About />
         <FAQ limit={3} />
-      </Container>
+      {/* </Container> */}
     </>
   );
 };
