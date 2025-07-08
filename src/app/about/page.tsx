@@ -2,10 +2,11 @@ import React from "react";
 import { Eye, Search, FileText, Target } from "lucide-react";
 import VideoPlayer from "@/components/VideoPlayer";
 import Image from "next/image";
+import CurvedLine from "@/components/CurvedLine";
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen my-16 bg-[var(--bg-secondary)]">
+    <div className="min-h-screen my-16">
       {/* Section 1: Vision & Mission */}
       <section className="bg-[var(--bg-secondary)] py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -112,7 +113,8 @@ const AboutPage = () => {
       </section>
 
       {/* Section 3: Search Illustration */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)] text-[var(--primary)]">
+      <section className="relative mt-16 pt-16 pb-16 px-4 sm:px-6 lg:px-8 text-[var(--primary)] bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)]">
+        <CurvedLine variant="bgSecondary" className="top-0 left-0 w-full" />
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="w-full lg:w-1/2">
