@@ -1,204 +1,208 @@
-"use client";
-import React, { useState } from "react";
-import {
-  Play,
-  CheckCircle,
-  Target,
-  Search,
-  FileText,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
+import React from "react";
+import { Eye, Search, FileText, Target } from "lucide-react";
+import VideoPlayer from "@/components/VideoPlayer";
 
-const About: React.FC = () => {
-  const [showVideo, setShowVideo] = useState(false);
-
-  const handleVideoPlay = () => {
-    setShowVideo(true);
-  };
-
+const AboutPage = () => {
   return (
-    <section className="py-16 lg:py-20" style={{ backgroundColor: "#f0f9f4" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left Side - Video */}
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl bg-white">
-              {!showVideo ? (
-                <>
-                  {/* Video Thumbnail */}
-                  <div className="relative aspect-video">
-                    <Image
-                      src="/images/VideoThumbnail.jpg"
-                      width={1000}
-                      height={562}
-                      alt="myScheme Platform Overview"
-                      className="w-full h-full object-cover"
-                    />
-
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <button
-                        onClick={handleVideoPlay}
-                        className="w-16 h-16 lg:w-20 lg:h-20 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
-                        aria-label="Play video"
-                      >
-                        <Play
-                          className="w-6 h-6 lg:w-8 lg:h-8 text-white ml-1"
-                          fill="currentColor"
-                        />
-                      </button>
+    <div className="min-h-screen my-16 bg-[var(--bg-secondary)]">
+      {/* Section 1: Vision & Mission */}
+      <section className="bg-[var(--bg-secondary)] py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left Side - Video */}
+            <div className="w-full lg:w-1/2 relative">
+              {/* <div className="relative rounded-xl overflow-hidden shadow-lg">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-200 -z-10 transform rotate-1 scale-95"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-green-50 to-green-100 -z-10 transform -rotate-1 scale-95"></div>
+                <div className="relative aspect-video bg-green-200 flex items-center justify-center">
+                  <Image
+                    src="/placeholder-video.jpg"
+                    alt="About Us Video"
+                    width={800}
+                    height={450}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                    <div className="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center transform hover:scale-110 transition-transform duration-300 cursor-pointer">
+                      <Play className="text-white w-8 h-8 ml-1" />
                     </div>
                   </div>
-                </>
-              ) : (
-                /* YouTube Video Embed */
-                <div className="aspect-video">
-                  <iframe
-                    src="https://www.youtube.com/embed/bNOWkB-6cmc?autoplay=1&rel=0&modestbranding=1"
-                    title="myScheme Platform Overview"
-                    className="w-full h-full"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
                 </div>
-              )}
+              </div> */}
+              <VideoPlayer
+                videoId="bNOWkB-6cmc"
+                title="myScheme Platform Overview"
+                description="Discover how we're transforming access to government schemes"
+                duration="2:45"
+                showThumbnail={true}
+                className="w-full"
+              />
             </div>
-          </div>
 
-          {/* Right Side - Content Sections */}
-          <div className="space-y-8">
-            {/* Our Vision Section */}
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <Target className="w-4 h-4 text-green-600" />
+            {/* Right Side - Vision & Mission */}
+            <div className="w-full lg:w-1/2 space-y-8">
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 mt-1 bg-[var(--bg-primary)] rounded-full p-2 border-2 border-[var(--primary)]">
+                  <Eye className="w-6 h-6 text-[var(--primary)]" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <div>
+                  <h3 className="text-2xl font-semibold text-[var(--text)] mb-2">
                     Our Vision
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Our vision is to make citizens life easier
+                  <p className="text-[var(--sub-text)]">
+                    To create a seamless platform connecting citizens with
+                    government schemes and initiatives.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 mt-1 bg-[var(--bg-primary)] rounded-full p-2 border-2 border-[var(--primary)]">
+                  <Target className="w-6 h-6 text-[var(--primary)]" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-semibold text-[var(--text)] mb-2">
+                    Our Mission
+                  </h3>
+                  <p className="text-[var(--sub-text)]">
+                    To empower every citizen with easy access to government
+                    schemes through transparent and efficient digital solutions,
+                    ensuring no one is left behind.
                   </p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Our Mission Section */}
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
-                    Our Mission
-                  </h3>
-                  <div className="space-y-3 text-gray-700 leading-relaxed">
-                    <p>
-                      Our mission is to streamline the government - user
-                      interface for government schemes and benefits.
-                    </p>
-                    <p>
-                      Reduce time and effort required to find and avail a
-                      government scheme
-                    </p>
-                  </div>
+      {/* Section 2: Platform Description */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--bg-primary)]">
+        <div className="max-w-4xl mx-auto">
+          <div className="prose prose-lg text-[var(--sub-text)] max-w-none">
+            <p className="mb-6">
+              Welcome to our platform, a comprehensive digital solution designed
+              to bridge the gap between government initiatives and citizens. Our
+              mission is to simplify access to various schemes and programs,
+              making it easier for individuals and businesses to find and
+              benefit from the support they need.
+            </p>
+            <p className="mb-6">
+              We understand that navigating through numerous government schemes
+              can be overwhelming. Thats why weve created an intuitive platform
+              that categorizes and presents information in a clear, accessible
+              manner. Our goal is to ensure that every citizen can easily find
+              and understand the opportunities available to them.
+            </p>
+            <p className="mb-6">
+              Our team is committed to maintaining the most up-to-date
+              information and continuously improving the platform based on user
+              feedback. We believe in the power of technology to create positive
+              change and are dedicated to making government services more
+              accessible to all.
+            </p>
+            <p className="text-[var(--sub-text)] mt-8">
+              This platform is developed and maintained by NCeG, MeitY, and
+              DARPG, with the vision of creating a more connected and empowered
+              society.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Search Illustration */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--bg-secondary)] text-[var(--primary)]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="w-full lg:w-1/2">
+              <h2 className="text-3xl font-bold mb-6">
+                Find the Right Scheme for You
+              </h2>
+              <p className="mb-6 text-[var(--sub-text)]">
+                Our advanced search functionality helps you quickly find the
+                government schemes that match your needs. Whether youre a
+                student, entrepreneur, farmer, or senior citizen, weve got you
+                covered.
+              </p>
+              <p className="text-[var(--sub-text)]">
+                With just a few clicks, you can filter through hundreds of
+                schemes based on your location, eligibility, and requirements.
+                Our user-friendly interface ensures that you can find what youre
+                looking for without any hassle.
+              </p>
+            </div>
+            <div className="w-full lg:w-1/2 flex justify-center">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80">
+                <div className="absolute inset-0 bg-[var(--primary)] rounded-full opacity-20 transform scale-75"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Search className="w-32 h-32 text-[var(--primary)]" />
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Platform Description */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
-                <p>
-                  <strong>myScheme</strong> is a National Platform that aims to
-                  offer one-stop search and discovery of the Government schemes.
-                </p>
-                <p>
-                  It is an innovative, technology-based solution to discover
-                  scheme information based upon the eligibility of the citizen.
-                </p>
-                <p>
-                  This platform helps the citizen to find the right Government
-                  schemes for them. It also guides on how to apply for different
-                  Government schemes. Thus no need to visit multiple Government
-                  websites.
-                </p>
-                <p>
-                  myScheme platform is Developed, Designed and Operated by
-                  National e-Governance Division (NeGD) in the Support of
-                  Ministry of Electronics and Information Technology (MeitY),
-                  Department of Administrative Reforms and Public Grievance
-                  (DARPG) and in partnership with other Central and State
-                  Ministries/Departments.
-                </p>
-              </div>
-            </div>
+      {/* Section 4: Feature Cards */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--bg-primary)]">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-[var(--primary)]">
+            How It Works
+          </h2>
 
-            {/* Process Steps Icons */}
-            <div className="grid grid-cols-3 gap-6 pt-4">
-              {/* Eligibility Check */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Users className="w-8 h-8 text-green-600" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1 */}
+            <div className="bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="p-6">
+                <div className="w-16 h-16 bg-[var(--bg-primary)] border-2 border-[var(--primary)] rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <Target className="w-8 h-8 text-[var(--primary)]" />
                 </div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                <h3 className="text-xl font-semibold text-center mb-3">
                   Eligibility Check
-                </h4>
-                <p className="text-xs text-gray-600 leading-tight">
-                  You can check your eligibility for different schemes using
-                  different criteria and personal attributes
+                </h3>
+                <p className="text-[var(--sub-text)] text-center">
+                  Quickly determine which schemes you qualify for based on your
+                  profile and requirements.
                 </p>
               </div>
+            </div>
 
-              {/* Scheme Finder */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <Search className="w-8 h-8 text-green-600" />
+            {/* Card 2 */}
+            <div className="bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="p-6">
+                <div className="w-16 h-16 bg-[var(--bg-primary)] border-2 border-[var(--primary)] rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <Search className="w-8 h-8 text-[var(--primary)]" />
                 </div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                <h3 className="text-xl font-semibold text-center mb-3">
                   Scheme Finder
-                </h4>
-                <p className="text-xs text-gray-600 leading-tight">
-                  Fast and easy searching with filter based drill down for
-                  various Government Schemes
+                </h3>
+                <p className="text-[var(--sub-text)] text-center">
+                  Use our intelligent search to find the perfect government
+                  schemes tailored to your needs.
                 </p>
               </div>
+            </div>
 
-              {/* Scheme in Detail */}
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <FileText className="w-8 h-8 text-green-600" />
+            {/* Card 3 */}
+            <div className="bg-[var(--bg-secondary)] rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="p-6">
+                <div className="w-16 h-16 bg-[var(--bg-primary)] border-2 border-[var(--primary)] rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <FileText className="w-8 h-8 text-[var(--primary)]" />
                 </div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-1">
-                  Scheme in detail
-                </h4>
-                <p className="text-xs text-gray-600 leading-tight">
-                  Deep dive into dedicated scheme page for that government
-                  scheme details before you apply
+                <h3 className="text-xl font-semibold text-center mb-3">
+                  Detailed Information
+                </h3>
+                <p className="text-[var(--sub-text)] text-center">
+                  Get comprehensive details about each scheme, including
+                  benefits, documents required, and application process.
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 
-export default About;
-// import VideoPlayer from "@/components/VideoPlayer";
-
-// <div className="space-y-8">
-//   <VideoPlayer
-//     videoId="bNOWkB-6cmc"
-//     title="myScheme Platform Overview"
-//     description="Discover how we're transforming access to government schemes"
-//     duration="2:45"
-//     showThumbnail={true}
-//     className="w-full"
-//   />
-// </div>
+export default AboutPage;

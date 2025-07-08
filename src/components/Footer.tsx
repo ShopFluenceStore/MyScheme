@@ -1,15 +1,20 @@
+"use client";
 import React from "react";
-import {
-  ChevronRight,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Logo from "./Logo";
 import SocialMedia from "./SocialMedia";
 import CurvedLine from "./CurvedLine";
 
 
 const Footer: React.FC = () => {
+  const router = useRouter();
   const currentYear = new Date().getFullYear();
+
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
 
   const quickLinks = [
     {name:"About Us", href:"/about"},
@@ -98,13 +103,13 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
-                    className="flex items-center text-[var(--white)] hover:text-[var(--primary)] transition-colors duration-200 group"
+                  <button
+                    onClick={() => handleNavigation(link.href)}
+                    className="w-full text-left flex items-center text-[var(--white)] hover:text-[var(--primary)] transition-colors duration-200 group cursor-pointer"
                   >
                     <ChevronRight className="w-4 h-4 mr-2 text-[var(--primary)] group-hover:translate-x-1 transition-transform duration-200" />
                     <span className="text-sm">{link.name}</span>
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>

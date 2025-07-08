@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   CheckSquare,
@@ -7,6 +8,7 @@ import {
 } from "lucide-react";
 import CurvedLine from "./CurvedLine";
 import { Button } from "./ui/Button";
+import { useRouter } from "next/navigation";
 
 const ProcessSteps: React.FC = () => {
   const steps = [
@@ -29,6 +31,12 @@ const ProcessSteps: React.FC = () => {
       description: "Select and apply for the best suited scheme",
     },
   ];
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/schemes");
+  };
 
   return (
     <>
@@ -148,7 +156,10 @@ const ProcessSteps: React.FC = () => {
 
           {/* Call to Action */}
           <div className="text-center mt-12">
-            <Button className="inline-flex items-center space-x-2 px-8 py-4 font-semibold text-md">
+            <Button
+              className="inline-flex items-center space-x-2 px-8 py-4 font-semibold text-md"
+              onClick={handleClick}
+            >
               <span>Get Started Now</span>
               <ArrowRight className="w-5 h-5" />
             </Button>
