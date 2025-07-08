@@ -1,15 +1,14 @@
-import { ReactNode } from 'react';
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search | MyScheme",
+  description: "Search for government schemes.",
+};
 
 export default function SearchLayout({
   children,
 }: {
-  children: ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        {children}
-      </main>
-    </div>
-  );
+  return <>{children}</>;
 }

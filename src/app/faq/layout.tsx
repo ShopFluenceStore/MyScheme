@@ -1,15 +1,14 @@
-import { ReactNode } from 'react';
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "FAQ | MyScheme",
+  description: "Read our Frequently Asked Questions for using the MyScheme platform.",
+};
 
 export default function FaqLayout({
   children,
 }: {
-  children: ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        {children}
-      </main>
-    </div>
-  );
+  return <>{children}</>;
 }

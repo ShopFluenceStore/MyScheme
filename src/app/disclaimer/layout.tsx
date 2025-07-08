@@ -1,15 +1,14 @@
-import { ReactNode } from 'react';
+import { Metadata } from "next";
 
-export default function ContactLayout({
+export const metadata: Metadata = {
+  title: "Disclaimer | MyScheme",
+  description: "Read our disclaimer for using the MyScheme platform.",
+};
+
+export default function DisclaimerLayout({
   children,
 }: {
-  children: ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        {children}
-      </main>
-    </div>
-  );
+  return <>{children}</>;
 }

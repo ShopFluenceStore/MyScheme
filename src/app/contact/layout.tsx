@@ -1,15 +1,14 @@
-import { ReactNode } from 'react';
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | MyScheme",
+  description: "Contact us for any inquiries or feedback.",
+};
 
 export default function ContactLayout({
   children,
 }: {
-  children: ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1">
-        {children}
-      </main>
-    </div>
-  );
+  return <>{children}</>;
 }

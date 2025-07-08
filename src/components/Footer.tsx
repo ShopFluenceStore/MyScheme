@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
     {name:"Accessibility Statement", href:"/accessibility-statement"},
     {name:"Frequently Asked Questions", href:"/faq"},
     {name:"Disclaimer", href:"/disclaimer"},
-    {name:"Terms & Conditions", href:"/terms"},
+    {name:"Terms & Conditions", href:"/terms-and-conditions"},
   ];
 
   const usefulLogos = [
