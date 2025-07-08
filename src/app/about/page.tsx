@@ -1,6 +1,7 @@
 import React from "react";
 import { Eye, Search, FileText, Target } from "lucide-react";
 import VideoPlayer from "@/components/VideoPlayer";
+import Image from "next/image";
 
 const AboutPage = () => {
   return (
@@ -135,7 +136,13 @@ const AboutPage = () => {
               <div className="relative w-64 h-64 sm:w-80 sm:h-80">
                 <div className="absolute inset-0 bg-[var(--primary)] rounded-full opacity-20 transform scale-75"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Search className="w-32 h-32 text-[var(--primary)]" />
+                  <Image
+                    src="/images/about-img.svg"
+                    alt="About Us"
+                    width={200}
+                    height={200}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
             </div>
