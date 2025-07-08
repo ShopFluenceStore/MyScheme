@@ -1,13 +1,59 @@
 'use client';
 
-import React from 'react';
-import { notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { FiArrowLeft, FiExternalLink, FiCalendar, FiMapPin, FiUsers, FiFileText } from 'react-icons/fi';
 import { Button } from '@/components/ui/Button';
 
+interface Scheme {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  subCategory: string;
+  launchDate: string;
+  deadline: string;
+  beneficiaries: string;
+  state: string;
+  logo: string;
+  isNew: boolean;
+  lastUpdated: string;
+  views: number;
+  bookmarks: number;
+  status: 'Active' | 'Inactive' | 'Upcoming';
+  ministry: string;
+  tags: string[];
+  benefits: string[];
+  eligibility: string[];
+  documentsRequired: string[];
+}
+
+interface Scheme {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  subCategory: string;
+  launchDate: string;
+  deadline: string;
+  beneficiaries: string;
+  state: string;
+  logo: string;
+  isNew: boolean;
+  lastUpdated: string;
+  views: number;
+  bookmarks: number;
+  status: 'Active' | 'Inactive' | 'Upcoming';
+  ministry: string;
+  tags: string[];
+  benefits: string[];
+  eligibility: string[];
+  documentsRequired: string[];
+}
+
 // This would normally come from an API
-const demoSchemes = [
+const demoSchemes: Scheme[] = [
   {
     id: '1',
     title: 'PM Kisan Samman Nidhi',
@@ -40,32 +86,66 @@ const demoSchemes = [
       'Aadhaar Card',
       'Land Records',
       'Bank Account Details',
-      'Aadhaar linked Mobile Number'
+      'Mobile Number Linked with Aadhaar'
     ],
-    // applyLink: 'https://pmkisan.gov.in/'
   },
   {
     id: '2',
+    title: 'PM Awas Yojana (Urban)',
+    description: 'Housing for All by 2022 mission for urban areas.',
+    category: 'Housing',
+    subCategory: 'Affordable Housing',
+    launchDate: '2015-06-25',
+    deadline: '2024-12-31',
+    beneficiaries: 'Urban Poor',
+    state: 'All India',
+    logo: '/schemes/pmay.png',
+    isNew: true,
+    lastUpdated: '2023-05-15',
+    views: 18900,
+    bookmarks: 5120,
+    status: 'Active',
+    ministry: 'Ministry of Housing and Urban Affairs',
+    tags: ['Housing', 'Subsidy', 'EWS/LIG'],
+    benefits: [
+      'Interest subsidy of 6.5% for 20 years',
+      'Financial assistance for construction',
+      'In-situ slum rehabilitation'
+    ],
+    eligibility: [
+      'Families from EWS/LIG categories',
+      'Beneficiary family should not own a pucca house',
+      'Beneficiary family should not have availed central assistance under any housing scheme'
+    ],
+    documentsRequired: [
+      'Aadhaar Card',
+      'Income Certificate',
+      'Address Proof',
+      'Caste Certificate (if applicable)'
+    ],
+  },
+  {
+    id: '3',
     title: 'Ayushman Bharat - PMJAY',
-    description: 'Health insurance coverage for poor and vulnerable families.',
-    category: 'Healthcare',
+    description: 'World\'s largest health insurance scheme providing health coverage up to ₹5 lakhs per family per year.',
+    category: 'Health',
     subCategory: 'Health Insurance',
     launchDate: '2018-09-23',
     deadline: 'Ongoing',
     beneficiaries: 'Economically Weaker Sections',
     state: 'All India',
     logo: '/schemes/pmjay.png',
-    isNew: true,
-    lastUpdated: '2023-05-15',
-    views: 18900,
-    bookmarks: 5670,
+    isNew: false,
+    lastUpdated: '2023-03-10',
+    views: 24500,
+    bookmarks: 8900,
     status: 'Active',
     ministry: 'Ministry of Health and Family Welfare',
-    tags: ['Health', 'Insurance', 'Hospitalization'],
+    tags: ['Health', 'Insurance', 'EWS'],
     benefits: [
       'Health coverage up to ₹5 lakhs per family per year',
       'Cashless and paperless access to healthcare',
-      'Covers pre and post-hospitalization expenses'
+      'Covers pre-existing conditions from day one'
     ],
     eligibility: [
       'Families identified based on SECC database',
@@ -78,12 +158,26 @@ const demoSchemes = [
       'Income Certificate',
       'Caste Certificate (if applicable)'
     ],
-    // applyLink: 'https://pmjay.gov.in/'
   }
 ];
 
-export default function SchemeDetailPage({ params }: { params: { id: string } }) {
-  const scheme = demoSchemes.find(s => s.id === params.id);
+export default function SchemeDetailPage() {
+  const params = useParams<{ id: string }>();
+  const [scheme, setScheme] = useState<Scheme | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // In a real app, you would fetch the scheme data here
+    const foundScheme = demoSchemes.find(s => s.id === params.id);
+    setScheme(foundScheme || null);
+    setLoading(false);
+  }, [params.id]);
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--primary)]"></div>
+    </div>;
+  }
 
   if (!scheme) {
     notFound();
@@ -277,4 +371,5 @@ export default function SchemeDetailPage({ params }: { params: { id: string } })
       </div>
     </div>
   );
-}
+};
+

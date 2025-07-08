@@ -1,0 +1,331 @@
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { FiArrowLeft, FiExternalLink, FiCalendar, FiMapPin, FiUsers, FiFileText } from 'react-icons/fi';
+import { Button } from '@/components/ui/Button';
+
+// This would normally come from an API
+const demoSchemes = [
+  {
+    id: '1',
+    title: 'PM Kisan Samman Nidhi',
+    description: 'Income support scheme for all landholding farmers in the country.',
+    category: 'Agriculture',
+    subCategory: 'Farmer Welfare',
+    launchDate: '2018-12-01',
+    deadline: 'Ongoing',
+    beneficiaries: 'Small and Marginal Farmers',
+    state: 'All India',
+    logo: '/schemes/pm-kisan.png',
+    isNew: false,
+    lastUpdated: '2023-04-01',
+    views: 12500,
+    bookmarks: 3420,
+    status: 'Active',
+    ministry: 'Ministry of Agriculture',
+    tags: ['Farmers', 'Financial Assistance', 'Direct Benefit Transfer'],
+    benefits: [
+      '₹6,000 per year in three equal installments',
+      'Direct transfer to bank accounts',
+      'No middlemen involved'
+    ],
+    eligibility: [
+      'Small and marginal farmer families',
+      'Landholding farmers with cultivable landholding',
+      'Family with combined landholding of up to 2 hectares'
+    ],
+    documentsRequired: [
+      'Aadhaar Card',
+      'Land Records',
+      'Bank Account Details',
+      'Mobile Number Linked with Aadhaar'
+    ],
+  },
+  {
+    id: '2',
+    title: 'PM Awas Yojana (Urban)',
+    description: 'Housing for All by 2022 mission for urban areas.',
+    category: 'Housing',
+    subCategory: 'Affordable Housing',
+    launchDate: '2015-06-25',
+    deadline: '2024-12-31',
+    beneficiaries: 'Urban Poor',
+    state: 'All India',
+    logo: '/schemes/pmay.png',
+    isNew: true,
+    lastUpdated: '2023-05-15',
+    views: 18900,
+    bookmarks: 5120,
+    status: 'Active',
+    ministry: 'Ministry of Housing and Urban Affairs',
+    tags: ['Housing', 'Subsidy', 'EWS/LIG'],
+    benefits: [
+      'Interest subsidy of 6.5% for 20 years',
+      'Financial assistance for construction',
+      'In-situ slum rehabilitation'
+    ],
+    eligibility: [
+      'Families from EWS/LIG categories',
+      'Beneficiary family should not own a pucca house',
+      'Beneficiary family should not have availed central assistance under any housing scheme'
+    ],
+    documentsRequired: [
+      'Aadhaar Card',
+      'Income Certificate',
+      'Address Proof',
+      'Caste Certificate (if applicable)'
+    ],
+  },
+  {
+    id: '3',
+    title: 'Ayushman Bharat - PMJAY',
+    description: 'World\'s largest health insurance scheme providing health coverage up to ₹5 lakhs per family per year.',
+    category: 'Health',
+    subCategory: 'Health Insurance',
+    launchDate: '2018-09-23',
+    deadline: 'Ongoing',
+    beneficiaries: 'Economically Weaker Sections',
+    state: 'All India',
+    logo: '/schemes/pmjay.png',
+    isNew: false,
+    lastUpdated: '2023-03-10',
+    views: 24500,
+    bookmarks: 8900,
+    status: 'Active',
+    ministry: 'Ministry of Health and Family Welfare',
+    tags: ['Health', 'Insurance', 'EWS'],
+    benefits: [
+      'Health coverage up to ₹5 lakhs per family per year',
+      'Cashless and paperless access to healthcare',
+      'Covers pre-existing conditions from day one'
+    ],
+    eligibility: [
+      'Families identified based on SECC database',
+      'No restriction on family size, age or gender',
+      'All pre-existing conditions covered from day one'
+    ],
+    documentsRequired: [
+      'Aadhaar Card',
+      'Ration Card',
+      'Income Certificate',
+      'Caste Certificate (if applicable)'
+    ],
+  }
+];
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default function Page({ params }: { params: { id: string } }) {
+  const scheme = demoSchemes.find(s => s.id === params.id);
+
+  if (!scheme) {
+    notFound();
+  }
+
+  return (
+    <div className="min-h-screen mb-16 bg-[var(--bg-primary)]">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Link href="/schemes" className="text-gray-600 hover:text-gray-900">
+                <FiArrowLeft className="h-5 w-5" />
+              </Link>
+              <h1 className="text-2xl font-bold text-gray-900">{scheme.title}</h1>
+              {scheme.isNew && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  New
+                </span>
+              )}
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                {scheme.status}
+              </span>
+              {scheme.applyLink && (
+                <a
+                  href={scheme.applyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Apply Now
+                  <FiExternalLink className="ml-2 h-4 w-4" />
+                </a>
+              )}
+            </div>
+          </div>
+          
+          <div className="mt-4 flex flex-wrap items-center text-sm text-gray-500">
+            <div className="flex items-center mr-6">
+              <FiCalendar className="mr-1.5 h-4 w-4 text-gray-400" />
+              <span>Launched: {scheme.launchDate}</span>
+            </div>
+            <div className="flex items-center mr-6">
+              <FiMapPin className="mr-1.5 h-4 w-4 text-gray-400" />
+              <span>{scheme.state}</span>
+            </div>
+            <div className="flex items-center">
+              <FiUsers className="mr-1.5 h-4 w-4 text-gray-400" />
+              <span>Beneficiaries: {scheme.beneficiaries}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row">
+              <div className="md:w-2/3 pr-6">
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Description</h2>
+                <p className="text-gray-600 mb-6">{scheme.description}</p>
+                
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Key Benefits</h2>
+                <ul className="list-disc pl-5 space-y-2 mb-6">
+                  {scheme.benefits.map((benefit, index) => (
+                    <li key={index} className="text-gray-600">{benefit}</li>
+                  ))}
+                </ul>
+                
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Eligibility Criteria</h2>
+                <ul className="list-disc pl-5 space-y-2 mb-6">
+                  {scheme.eligibility.map((criteria, index) => (
+                    <li key={index} className="text-gray-600">{criteria}</li>
+                  ))}
+                </ul>
+                
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Documents Required</h2>
+                <ul className="list-disc pl-5 space-y-2">
+                  {scheme.documentsRequired.map((doc, index) => (
+                    <li key={index} className="text-gray-600">{doc}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div className="md:w-1/3 mt-6 md:mt-0">
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="h-24 w-24 rounded-full bg-blue-100 flex items-center justify-center">
+                      <FiFileText className="h-12 w-12 text-blue-600" />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Category</h3>
+                      <p className="text-sm text-gray-900">{scheme.category}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Sub-category</h3>
+                      <p className="text-sm text-gray-900">{scheme.subCategory}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Ministry</h3>
+                      <p className="text-sm text-gray-900">{scheme.ministry}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500">Last Updated</h3>
+                      <p className="text-sm text-gray-900">{scheme.lastUpdated}</p>
+                    </div>
+                    
+                    <div className="pt-2">
+                      <h3 className="text-sm font-medium text-gray-500 mb-2">Tags</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {scheme.tags.map((tag, index) => (
+                          <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {scheme.applyLink && (
+                      <div className="pt-4">
+                        <a
+                          href={scheme.applyLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                          Apply Now
+                          <FiExternalLink className="ml-2 h-4 w-4" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="mt-6 bg-gray-50 p-6 rounded-lg">
+                  <h3 className="text-sm font-medium text-gray-900 mb-4">Scheme Statistics</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span className="text-gray-600">Views</span>
+                        <span className="font-medium text-gray-900">{scheme.views.toLocaleString()}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-blue-600 h-2 rounded-full" 
+                          style={{ width: `${Math.min(100, scheme.views / 1000)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span className="text-gray-600">Bookmarks</span>
+                        <span className="font-medium text-gray-900">{scheme.bookmarks.toLocaleString()}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-600 h-2 rounded-full" 
+                          style={{ width: `${Math.min(100, scheme.bookmarks / 100)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-gray-500">
+                Last updated on {scheme.lastUpdated}
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  type="button"
+                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  <svg className="-ml-0.5 mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                  Share
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  <svg className="-ml-0.5 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
