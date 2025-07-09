@@ -15,12 +15,18 @@
   --text: #1c1c1c;
   --sub-text: #6b7280;
   --border: #c8c8c8;
-  --card-bg: #ffffff;
-  --card-border: #e5e7eb;
+  --card-bg: #EFF6FF;
+  --card-secondary: #DBEAFE;
+  --card-border: #EFF6FF;
+  --card-text: #1C398E;
+  --card-sub-text: #3752a4;
   --black: #000000;
   --white: #ffffff;
   --gray: #2F2B45;
   --error: #ef4444;
+
+  --link-color: #2563eb;
+  --link-hover-color: #1d4ed8;
 }
 
 .dark {
@@ -31,10 +37,16 @@
   --text: #f9fafb;
   --sub-text: #9ca3af;
   --border: #374151;
-  --card-bg: #1f2937;
+  --card-bg: #2a374a;
+  --card-secondary: #3a414a;
   --card-border: #374151;
+  --card-text: #d7dae4;
+  --card-sub-text: #afb1b9;
   --gray: #050D16;
   --error: #ef4444;
+
+  --link-color: #2563eb;
+  --link-hover-color: #1d4ed8;
 }
 
 * {

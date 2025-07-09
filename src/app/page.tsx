@@ -28,10 +28,10 @@ const page = () => {
     <>
       <Carousel images={carouselImages} autoSlideInterval={5000} />
       {/* <Container> */}
+        <About />
         <FindScheme />
         <SchemeTabs />
         <ProcessSteps />
-        <About />
         <FAQ limit={3} />
       {/* </Container> */}
     </>

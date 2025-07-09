@@ -16,6 +16,7 @@ import { Search } from "lucide-react";
 import Line from "./Line";
 import SocialMedia from "./SocialMedia";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -191,7 +192,6 @@ const Header: React.FC = () => {
               <Search className="h-5 w-5 text-[var(--muted-foreground)]" />
             </div>
             <input
-              onClick={() => router.push(link)}
               type="text"
               placeholder="Enter scheme name to search..."
               className="w-full rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] py-2.5 px-6 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300 shadow-sm"
@@ -200,24 +200,30 @@ const Header: React.FC = () => {
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-sm font-medium">
-            <a
-              href="#"
+            <Link
+              href="/about"
               className="py-2 px-4 hover:bg-[var(--bg-secondary)] hover:text-[var(--primary)] rounded-md transition-colors duration-200"
             >
-              Environment
-            </a>
-            <a
-              href="#"
+              About
+            </Link>
+            <Link
+              href="/screen-reader"
               className="py-2 px-4 hover:bg-[var(--bg-secondary)] hover:text-[var(--primary)] rounded-md transition-colors duration-200"
             >
-              Services and Insurance
-            </a>
-            <a
-              href="#"
+              Screen Reader
+            </Link>
+            <Link
+              href="/contact"
               className="py-2 px-4 hover:bg-[var(--bg-secondary)] hover:text-[var(--primary)] rounded-md transition-colors duration-200"
             >
-              Entrepreneurship
-            </a>
+              Contact
+            </Link>
+            <Link
+              href="/faq"
+              className="py-2 px-4 hover:bg-[var(--bg-secondary)] hover:text-[var(--primary)] rounded-md transition-colors duration-200"
+            >
+              FAQ
+            </Link>
           </nav>
           <Line />
 
