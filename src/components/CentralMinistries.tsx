@@ -128,9 +128,9 @@ const CentralMinistries: React.FC = () => {
       </div>
 
       <div className="text-center pt-4">
-        <Link href="/ministries">
+        <Link href="/schemes">
           <Button variant="secondary" className="px-6 py-3">
-            <span>View All Ministries</span>
+            <span>View All Schemes</span>
             <ArrowRight className="w-4 h-4" />
           </Button>
         </Link>

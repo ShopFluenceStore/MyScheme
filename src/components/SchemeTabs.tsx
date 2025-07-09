@@ -112,7 +112,7 @@ const SchemeTabs: React.FC = () => {
                       <div className="flex items-start space-x-2 sm:space-x-3">
                         <div
                           className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${category.color}`}
-                          style={{ backgroundColor: "var(--input-bg)" }}
+                          style={{ backgroundColor: "var(--bg-secondary)" }}
                         >
                           <IconComponent className="w-5 h-5" />
                         </div>
@@ -132,7 +132,7 @@ const SchemeTabs: React.FC = () => {
                             >
                               {category.schemeCount} schemes
                             </span>
-                            <ArrowRight className="w-3 h-3 text-[var(--sub-text)] group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)] transition-colors" />
+                            <ArrowRight className="w-4 h-4 text-[var(--sub-text)] group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)] transition-colors" />
                           </div>
                         </div>
                       </div>
@@ -187,7 +187,7 @@ const SchemeTabs: React.FC = () => {
                     <button
                       key={tab.id}
                       onClick={() => handleTabChange(tab.id)}
-                      className={`relative flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-md transition-all duration-300 whitespace-nowrap ${
+                      className={`relative flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-md transition-all duration-300 whitespace-nowrap cursor-pointer ${
                         isActive
                           ? "shadow-sm"
                           : "hover:bg-[var(--bg-primary)] dark:hover:bg-[var(--bg-primary)]"

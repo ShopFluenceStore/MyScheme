@@ -31,11 +31,6 @@ const StatesUTs: React.FC = () => {
     <div className="space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-medium" 
-             style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--primary)' }}>
-          <MapPin className="w-4 h-4" />
-          <span>Regional Schemes</span>
-        </div>
         <h2 className="text-2xl lg:text-3xl font-bold" style={{ color: 'var(--text)' }}>
           Browse by States & UTs
         </h2>
@@ -53,7 +48,7 @@ const StatesUTs: React.FC = () => {
                 key={state.code}
                 className="group cursor-pointer p-5 rounded-xl border transition-all duration-300 hover:shadow-lg"
                 style={{ 
-                  backgroundColor: 'var(--bg-primary)', 
+                  backgroundColor: 'var(--bg-secondary)', 
                   borderColor: 'var(--border)'
                 }}
               >
