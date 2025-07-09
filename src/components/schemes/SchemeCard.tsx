@@ -22,7 +22,8 @@ interface SchemeCardProps {
   id: string;
   title: string;
   description: string;
-  state: string;
+  category?: string;
+  state: string | string[];
   deadline: string;
   subCategory?: string;
   beneficiaries?: string[];
@@ -234,7 +235,7 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
               <div>
                 <div className="text-xs text-[var(--text-muted)]">Location</div>
                 <div className="text-sm text-[var(--text)]">
-                  {isLoading ? '--' : state}
+                  {isLoading ? '--' : Array.isArray(state) ? state.join(', ') : state}
                 </div>
               </div>
             </div>

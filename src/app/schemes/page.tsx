@@ -159,7 +159,7 @@ const SchemesPage = () => {
                 subCategory={scheme.subCategory}
                 launchDate={scheme.launchDate}
                 deadline={scheme.deadline}
-                beneficiaries={scheme.beneficiaries}
+                beneficiaries={Array.isArray(scheme.beneficiaries) ? scheme.beneficiaries : [scheme.beneficiaries]}
                 state={scheme.state}
                 logo={scheme.logo}
                 isNew={scheme.isNew}
@@ -169,7 +169,7 @@ const SchemesPage = () => {
                 status={scheme.status as 'active' | 'upcoming' | 'expired' | undefined}
                 ministry={scheme.ministry}
                 tags={scheme.tags}
-                benefits={scheme.benefits}
+                benefits={Array.isArray(scheme.benefits) ? scheme.benefits : [scheme.benefits]}
                 eligibility={scheme.eligibility}
                 documentsRequired={scheme.documentsRequired}
                 applyLink={scheme.applyLink}
