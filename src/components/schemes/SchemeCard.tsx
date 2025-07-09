@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { 
-  Clock, 
   User, 
-  Calendar, 
   MapPin, 
+  Calendar, 
+  Clock, 
   ArrowRight, 
+  ChevronDown, 
+  ChevronUp, 
   Bookmark, 
-  Share2, 
-  AlertCircle,
+  Share2,
+  Eye,
   Award,
   FileText,
-  CheckCircle2,
-  ChevronDown,
-  ChevronUp
+  CheckCircle2
 } from 'lucide-react';
-import { Scheme } from '@/hooks/useSchemes';
+import Link from 'next/link';
+import { Button } from '../ui/Button';
 
-interface SchemeCardProps extends Omit<Scheme, 'id' | 'description' | 'lastUpdated' | 'views' | 'bookmarks'> {
+interface SchemeCardProps {
   id: string;
+  title: string;
   description: string;
+  state: string;
+  deadline: string;
+  subCategory?: string;
+  beneficiaries?: string[];
+  launchDate?: string;
+  ministry?: string;
+  tags?: string[];
   isNew?: boolean;
   onClick?: (id: string) => void;
   className?: string;
@@ -28,22 +36,24 @@ interface SchemeCardProps extends Omit<Scheme, 'id' | 'description' | 'lastUpdat
   lastUpdated?: string;
   views?: number;
   bookmarks?: number;
+  logo?: string;
+  status?: 'active' | 'upcoming' | 'expired';
+  benefits?: string[];
+  eligibility?: string[];
+  documentsRequired?: string[];
+  applyLink?: string;
 }
 
 const SchemeCard: React.FC<SchemeCardProps> = ({
   id,
   title,
   description,
-  category,
-  subCategory,
   deadline,
   beneficiaries,
   launchDate,
   state,
   logo,
-  ministry,
   status = 'active',
-  tags = [],
   benefits = [],
   eligibility = [],
   documentsRequired = [],
@@ -58,15 +68,10 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
   const [isExpanded, setIsExpanded] = useState(showDetails);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const isLoading = id === 'temp';
+  const viewsCount = views || 0;
   
   // Show new badge if scheme is marked as new and not loading
   const showNewBadge = isNew && !isLoading;
-  
-  const statusColors = {
-    active: 'bg-green-100 text-green-800',
-    upcoming: 'bg-blue-100 text-blue-800',
-    expired: 'bg-gray-100 text-gray-800'
-  };
 
   const handleCardClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -86,15 +91,18 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
     // TODO: Implement bookmark functionality
   };
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    // TODO: Implement share functionality
-    if (navigator.share) {
-      navigator.share({
-        title: title,
-        text: description,
-        url: `${window.location.origin}/schemes/${id}`,
-      }).catch(console.error);
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: title,
+          text: description,
+          url: `${window.location.origin}/schemes/${id}`,
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
     }
   };
 
@@ -109,8 +117,8 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
 
   return (
     <article 
-      className={`bg-[var(--bg-primary)] rounded-xl shadow-sm overflow-hidden border border-[var(--border)] transition-all duration-300 hover:shadow-md ${
-        isLoading ? 'animate-pulse' : 'cursor-pointer'
+      className={`bg-[var(--bg-card)] rounded-lg overflow-hidden border border-[var(--border)] transition-all ${
+        isLoading ? 'animate-pulse' : 'cursor-pointer hover:shadow-md hover:border-[var(--primary)]'
       } ${className}`}
       onClick={handleCardClick}
       role="button"
@@ -118,173 +126,115 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
       onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && handleCardClick(e as unknown as React.MouseEvent)}
     >
       {/* Header */}
-      <div className="p-5 border-b border-gray-100">
-        <div className="flex justify-between items-start">
-          <div className="flex items-start space-x-3">
-            <div className={`w-12 h-12 rounded-lg ${
-              isLoading ? 'bg-gray-200' : 'bg-gradient-to-br from-blue-50 to-blue-100'
-            } flex-shrink-0 flex items-center justify-center overflow-hidden`}>
-              {logo && !isLoading ? (
-                <Image 
-                  src={logo} 
-                  alt={title} 
-                  width={28}
-                  height={28}
-                  className="object-contain"
-                />
-              ) : isLoading ? (
-                <div className="w-6 h-6 bg-gray-300 rounded"></div>
-              ) : (
-                <Award className="w-6 h-6 text-blue-600" />
-              )}
-            </div>
+      <div className="p-4 border-b border-[var(--border)]">
+        <div className="flex items-start gap-3">
+          <div className={`w-12 h-12 rounded-lg bg-[var(--bg-secondary)] flex-shrink-0 flex items-center justify-center`}>
+            {logo && !isLoading ? (
+              <Image 
+                src={logo} 
+                alt={title} 
+                width={24}
+                height={24}
+                className="object-contain"
+              />
+            ) : (
+              <Award className="w-6 h-6 text-[var(--primary)]" />
+            )}
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <h3 className={`text-lg font-semibold text-[var(--text)] ${isLoading ? 'h-6 bg-[var(--bg-secondary)] rounded w-3/4' : ''}`}>
+              {isLoading ? '' : title}
+            </h3>
             
-            <div className="min-w-0">
-              <div className="flex items-center flex-wrap gap-2">
-                <h3 className={`text-lg font-semibold ${
-                  isLoading ? 'h-6 bg-gray-200 rounded w-3/4' : 'text-gray-900'
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              {!isLoading && status && (
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  status === 'active' ? 'bg-[var(--success-light)] text-[var(--success)]' : 
+                  status === 'upcoming' ? 'bg-[var(--info-light)] text-[var(--info)]' :
+                  'bg-[var(--bg-secondary)] text-[var(--text-muted)]'
                 }`}>
-                  {isLoading ? '' : title}
-                </h3>
-                
-                {!isLoading && status && (
-                  <>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      statusColors[status] || 'bg-gray-100 text-gray-800'
-                    }`}>
-                      {status.charAt(0).toUpperCase() + status.slice(1)}
-                    </span>
-                    {showNewBadge && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        New
-                      </span>
-                    )}
-                  </>
-                )}
-              </div>
-              
-              <div className="mt-1 flex flex-wrap gap-2">
-                {isLoading ? (
-                  <div className="h-5 w-20 bg-gray-200 rounded"></div>
-                ) : (
-                  <>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-blue-700 bg-blue-50">
-                      {category}
-                    </span>
-                    {subCategory && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-purple-700 bg-purple-50">
-                        {subCategory}
-                      </span>
-                    )}
-                    {ministry && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-amber-700 bg-amber-50">
-                        {ministry}
-                      </span>
-                    )}
-                  </>
-                )}
-              </div>
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </span>
+              )}
+              {showNewBadge && (
+                <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--success-light)] text-[var(--success)]">
+                  New
+                </span>
+              )}
             </div>
           </div>
           
           {!isLoading && (
-            <div className="flex items-center space-x-2">
+            <div className="flex gap-1">
               <button 
                 onClick={handleBookmark}
-                className={`p-1.5 rounded-full hover:bg-gray-100 transition-colors ${
-                  isBookmarked ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'
+                className={`p-1.5 rounded-full hover:bg-[var(--bg-secondary)] ${
+                  isBookmarked ? 'text-[var(--primary)]' : 'text-[var(--text-muted)] hover:text-[var(--primary)]'
                 }`}
                 aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
               >
-                <Bookmark className="w-5 h-5" fill={isBookmarked ? 'currentColor' : 'none'} />
+                <Bookmark className="w-4 h-4" fill={isBookmarked ? 'currentColor' : 'none'} />
               </button>
               <button 
                 onClick={handleShare}
-                className="p-1.5 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                className="p-1.5 rounded-full text-[var(--text-muted)] hover:bg-[var(--bg-secondary)] hover:text-[var(--primary)]"
                 aria-label="Share"
               >
-                <Share2 className="w-5 h-5" />
+                <Share2 className="w-4 h-4" />
               </button>
             </div>
           )}
         </div>
-        
-        {!isLoading && tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {tags.slice(0, 3).map((tag, index) => (
-              <span 
-                key={index} 
-                className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-gray-600 bg-gray-50"
-              >
-                {tag}
-              </span>
-            ))}
-            {tags.length > 3 && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-gray-500 bg-gray-50">
-                +{tags.length - 3} more
-              </span>
-            )}
-          </div>
-        )}
       </div>
       
       {/* Body */}
-      <div className="p-5">
-        <p className={`text-gray-600 mb-4 ${
-          isLoading ? 'h-4 bg-gray-200 rounded w-full' : ''
-        }`}>
+      <div className="p-4">
+        <p className={`text-sm text-[var(--text-muted)] ${isLoading ? 'h-12 bg-[var(--bg-secondary)] rounded' : 'line-clamp-3'}`}>
           {isLoading ? '' : description}
         </p>
         
         {/* Key Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div className="flex items-start">
-            <Calendar className={`w-4 h-4 mt-0.5 mr-2 flex-shrink-0 ${
-              isLoading ? 'text-gray-300' : 'text-blue-500'
-            }`} />
+        <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+          <div className="flex items-center">
+            <Calendar className="w-4 h-4 mr-2 text-[var(--primary)] flex-shrink-0" />
             <div>
-              <div className="text-xs text-[var(--text)]">Launched</div>
-              <div className={isLoading ? 'h-4 bg-[var(--bg-secondary)] rounded w-24 mt-1' : 'text-[var(--sub-text)]'}>
-                {isLoading ? '' : formatDate(launchDate)}
+              <div className="text-xs text-[var(--text-muted)]">Launched</div>
+              <div className="text-sm text-[var(--text)]">
+                {isLoading ? '--' : launchDate ? formatDate(launchDate) : 'N/A'}
               </div>
             </div>
           </div>
           
           {deadline && (
-            <div className="flex items-start">
-              <Clock className={`w-4 h-4 mt-0.5 mr-2 flex-shrink-0 ${
-                isLoading ? 'text-gray-300' : 'text-red-500'
-              }`} />
+            <div className="flex items-center">
+              <Clock className="w-4 h-4 mr-2 text-[var(--danger)] flex-shrink-0" />
               <div>
-                <div className="text-xs text-[var(--text)]">Deadline</div>
-                <div className={isLoading ? 'h-4 bg-[var(--bg-secondary)] rounded w-24 mt-1' : 'text-[var(--sub-text)]'}>
-                  {isLoading ? '' : formatDate(deadline)}
+                <div className="text-xs text-[var(--text-muted)]">Deadline</div>
+                <div className="text-sm text-[var(--text)]">
+                  {isLoading ? '--' : formatDate(deadline)}
                 </div>
               </div>
             </div>
           )}
           
-          <div className="flex items-start">
-            <User className={`w-4 h-4 mt-0.5 mr-2 flex-shrink-0 ${
-              isLoading ? 'text-gray-300' : 'text-green-500'
-            }`} />
+          <div className="flex items-center">
+            <User className="w-4 h-4 mr-2 text-[var(--success)] flex-shrink-0" />
             <div>
-              <div className="text-xs text-[var(--text)]">Beneficiaries</div>
-              <div className={isLoading ? 'h-4 bg-[var(--bg-secondary)] rounded w-32 mt-1' : 'text-[var(--sub-text)]'}>
-                {isLoading ? '' : beneficiaries || 'All Citizens'}
+              <div className="text-xs text-[var(--text-muted)]">For</div>
+              <div className="text-sm text-[var(--text)]">
+                {isLoading ? '--' : beneficiaries || 'All Citizens'}
               </div>
             </div>
           </div>
           
           {state && (
-            <div className="flex items-start">
-              <MapPin className={`w-4 h-4 mt-0.5 mr-2 flex-shrink-0 ${
-                isLoading ? 'text-gray-300' : 'text-purple-500'
-              }`} />
+            <div className="flex items-center">
+              <MapPin className="w-4 h-4 mr-2 text-[var(--info)] flex-shrink-0" />
               <div>
-                <div className="text-xs text-[var(--text)]">Location</div>
-                <div className={isLoading ? 'h-4 bg-[var(--bg-secondary)] rounded w-24 mt-1' : 'text-[var(--sub-text)]'}>
-                  {isLoading ? '' : state}
+                <div className="text-xs text-[var(--text-muted)]">Location</div>
+                <div className="text-sm text-[var(--text)]">
+                  {isLoading ? '--' : state}
                 </div>
               </div>
             </div>
@@ -296,34 +246,29 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
           <div className="mt-4">
             <button 
               onClick={toggleExpand}
-              className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+              className="flex items-center text-sm font-medium text-[var(--primary)] hover:opacity-80"
             >
+              {isExpanded ? 'Show less' : 'View details'}
               {isExpanded ? (
-                <>
-                  <span>Show less</span>
-                  <ChevronUp className="ml-1 w-4 h-4" />
-                </>
+                <ChevronUp className="ml-1 w-4 h-4" />
               ) : (
-                <>
-                  <span>View details</span>
-                  <ChevronDown className="ml-1 w-4 h-4" />
-                </>
+                <ChevronDown className="ml-1 w-4 h-4" />
               )}
             </button>
             
             {isExpanded && (
-              <div className="mt-3 space-y-4 pt-3 border-t border-gray-100">
+              <div className="mt-3 pt-3 border-t border-[var(--border)]">
                 {benefits.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
-                      <CheckCircle2 className="w-4 h-4 text-green-500 mr-1.5" />
+                  <div className="mb-4">
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
+                      <Award className="w-4 h-4 text-[var(--primary)] mr-2" />
                       Key Benefits
-                    </h4>
-                    <ul className="space-y-1.5">
+                    </h5>
+                    <ul className="space-y-2">
                       {benefits.map((benefit, index) => (
-                        <li key={index} className="text-sm text-gray-600 flex items-start">
-                          <span className="text-green-500 mr-1.5">•</span>
-                          {benefit}
+                        <li key={index} className="flex items-start">
+                          <CheckCircle2 className="w-4 h-4 text-[var(--primary)] mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-sm text-[var(--text)]">{benefit}</span>
                         </li>
                       ))}
                     </ul>
@@ -331,16 +276,16 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
                 )}
                 
                 {eligibility.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
-                      <AlertCircle className="w-4 h-4 text-amber-500 mr-1.5" />
-                      Eligibility Criteria
-                    </h4>
-                    <ul className="space-y-1.5">
-                      {eligibility.map((criteria, index) => (
-                        <li key={index} className="text-sm text-gray-600 flex items-start">
-                          <span className="text-amber-500 mr-1.5">•</span>
-                          {criteria}
+                  <div className="mb-4">
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
+                      <User className="w-4 h-4 text-[var(--primary)] mr-2" />
+                      Eligibility
+                    </h5>
+                    <ul className="space-y-2">
+                      {eligibility.map((item, index) => (
+                        <li key={index} className="flex items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-2 mr-2 flex-shrink-0"></div>
+                          <span className="text-sm text-[var(--text)]">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -349,18 +294,18 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
                 
                 {documentsRequired.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
-                      <FileText className="w-4 h-4 text-blue-500 mr-1.5" />
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center">
+                      <FileText className="w-4 h-4 text-[var(--primary)] mr-2" />
                       Required Documents
-                    </h4>
-                    <ul className="space-y-1.5">
+                    </h5>
+                    <div className="grid grid-cols-1 gap-2">
                       {documentsRequired.map((doc, index) => (
-                        <li key={index} className="text-sm text-gray-600 flex items-start">
-                          <span className="text-blue-500 mr-1.5">•</span>
-                          {doc}
-                        </li>
+                        <div key={index} className="flex items-start p-2 rounded bg-[var(--bg-secondary)]">
+                          <FileText className="w-4 h-4 text-[var(--primary)] mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-sm text-[var(--text)]">{doc}</span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 )}
               </div>
@@ -370,36 +315,35 @@ const SchemeCard: React.FC<SchemeCardProps> = ({
       </div>
       
       {/* Footer */}
-      <div className="px-5 py-3 bg-[var(--bg-primary)] border-t border-[var(--border)] flex justify-between items-center">
-        <div className="text-xs text-[var(--sub-text)]">
+      <div className="p-4 bg-[var(--bg-secondary)] border-t border-[var(--border)]">
+        <div className="flex items-center justify-between">
           {!isLoading && lastUpdated && (
-            <span>Updated {new Date(lastUpdated).toLocaleDateString()}</span>
-          )}
-          {!isLoading && views > 0 && (
-            <span className="ml-2">• {views.toLocaleString()} views</span>
-          )}
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          {!isLoading && applyLink && (
-            <a
-              href={applyLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-[var(--primary)] hover:bg-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
-              Apply Now
-            </a>
+            <div className="text-xs text-[var(--text-muted)]">
+              Updated {new Date(lastUpdated).toLocaleDateString()}
+            </div>
           )}
           
-          <Link
-            href={`/schemes/${id}`}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center text-sm font-medium text-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-          >
-            View Details <ArrowRight className="ml-1 w-4 h-4" />
-          </Link>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center text-xs text-[var(--text-muted)]">
+              <Eye className="w-3.5 h-3.5 mr-1" />
+              {viewsCount.toLocaleString()}
+            </div>
+            
+            {applyLink && (
+              <Link
+                href={applyLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className=""
+              >
+                <Button>
+                  Apply Now
+                  <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </article>
