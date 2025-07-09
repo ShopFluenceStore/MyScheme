@@ -1,11 +1,14 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import {
   SunIcon,
   MoonIcon,
   ArrowRightIcon,
   MenuIcon,
   XIcon,
+  ChevronDown,
 } from "lucide-react";
 import Logo from "./Logo";
 import Image from "next/image";
@@ -26,6 +29,7 @@ const Header: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef<number | null>(null);
 
@@ -61,6 +65,11 @@ const Header: React.FC = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  // Close sidebar when route changes
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -174,11 +183,15 @@ const Header: React.FC = () => {
       </header>
 
       {/* Sidebar for Mobile/Tablet */}
-      <div
-        className={`fixed inset-y-0 left-0 w-64 bg-[var(--bg-primary)] border-r border-[var(--border)] z-40 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:hidden`}
-      >
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
+            className="fixed inset-y-0 left-0 w-64 bg-[var(--bg-primary)] border-r border-[var(--border)] z-40 sm:hidden shadow-2xl"
+          >
         <div className="flex flex-col h-full p-4">
           <div className="flex items-center gap-3 sm:gap-4">
             <Logo variant="image1" />
@@ -233,38 +246,76 @@ const Header: React.FC = () => {
           {/* Language Toggle in Sidebar */}
           <div className="mt-auto">
             <Line />
-            <button
-              onClick={() => setLanguageOpen(!languageOpen)}
-              className="flex items-center gap-1.5 text-[var(--primary)] text-sm font-medium hover:bg-[var(--bg-secondary)] rounded-md px-3 py-2 transition-all duration-200 w-full"
-            >
-              <span className="rounded-full bg-[var(--bg-secondary)] p-1.5">
-                अ
-              </span>{" "}
-              Eng
-            </button>
-            {languageOpen && (
-              <div className="mt-2 w-full rounded-lg bg-[var(--bg-primary)] shadow-lg border border-[var(--border)] animate-fade-in">
-                <ul className="text-sm font-medium">
-                  <li className="px-4 py-2 hover:bg-[var(--bg-secondary)] cursor-pointer rounded-t-lg transition-colors duration-150">
-                    English
-                  </li>
-                  <li className="px-4 py-2 hover:bg-[var(--bg-secondary)] cursor-pointer rounded-b-lg transition-colors duration-150">
-                    हिंदी
-                  </li>
-                </ul>
-              </div>
-            )}
+            <motion.div className="relative">
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setLanguageOpen(!languageOpen)}
+                className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-[var(--primary)] hover:bg-[var(--bg-secondary)] rounded-md transition-colors duration-200"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full bg-[var(--bg-secondary)] p-1.5">
+                    अ
+                  </span>
+                  <span>English</span>
+                </div>
+                <motion.span
+                  animate={{ rotate: languageOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4" />
+                </motion.span>
+              </motion.button>
+              
+              <AnimatePresence>
+                {languageOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: -10, height: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-2 w-full rounded-lg bg-[var(--bg-primary)] shadow-lg border border-[var(--border)]">
+                      <ul className="text-sm font-medium">
+                        <motion.li 
+                          whileHover={{ scale: 1.02, x: 5 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="px-4 py-2 hover:bg-[var(--bg-secondary)] cursor-pointer rounded-t-lg transition-all duration-150"
+                        >
+                          English
+                        </motion.li>
+                        <motion.li 
+                          whileHover={{ scale: 1.02, x: 5 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="px-4 py-2 hover:bg-[var(--bg-secondary)] cursor-pointer rounded-b-lg transition-all duration-150"
+                        >
+                          हिंदी
+                        </motion.li>
+                      </ul>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Overlay for Sidebar */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 sm:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/50 z-30 sm:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
