@@ -24,7 +24,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-16">
+    <div className="container mb-16 mx-auto px-4 py-8 mt-16">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold text-[var(--text)] mb-6">
           Search Schemes
