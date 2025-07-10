@@ -148,7 +148,7 @@ const Contact: React.FC = () => {
                   <div className="flex-1">
                     <h3 className="text-lg font-bold mb-2" style={{ color: 'var(--text)' }}>EMAIL</h3>
                     <p className="text-[var(--sub-text)] leading-relaxed break-all">
-                      support-myscheme[at]digitalindia[dot]gov[dot]in
+                      support-myscheme@digitalindia.gov.in
                     </p>
                   </div>
                 </div>
