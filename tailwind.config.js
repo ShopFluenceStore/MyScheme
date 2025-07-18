@@ -36,7 +36,7 @@ module.exports = {
         gray: '#171717',
       },
       fontFamily: {
-        sans: ['var(--font-poppins)'],
+        sans: ['var(--font-manrope)'],
       },
     },
   },

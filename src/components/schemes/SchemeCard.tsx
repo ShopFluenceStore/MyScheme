@@ -23,7 +23,7 @@ interface SchemeCardProps {
   title: string;
   description: string;
   category?: string;
-  state: string | string[];
+  state?: string | string[];
   deadline: string;
   subCategory?: string;
   beneficiaries?: string[];

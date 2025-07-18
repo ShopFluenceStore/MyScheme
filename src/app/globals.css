@@ -2,11 +2,10 @@
 /* @import "tailwindcss/preflight";
 @import "tailwindcss/utilities"; */
 
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --font-poppins: Poppins, Sans-serif;
+  --font-manrope: "Manrope", sans-serif;
 
   --primary: #16a34a;
   --secondary: #7ea58d;
@@ -15,14 +14,14 @@
   --text: #1c1c1c;
   --sub-text: #6b7280;
   --border: #c8c8c8;
-  --card-bg: #EFF6FF;
-  --card-secondary: #DBEAFE;
-  --card-border: #EFF6FF;
-  --card-text: #1C398E;
+  --card-bg: #eff6ff;
+  --card-secondary: #dbeafe;
+  --card-border: #eff6ff;
+  --card-text: #1c398e;
   --card-sub-text: #3752a4;
   --black: #000000;
   --white: #ffffff;
-  --gray: #2F2B45;
+  --gray: #2f2b45;
   --error: #ef4444;
 
   --link-color: #2563eb;
@@ -42,7 +41,7 @@
   --card-border: #374151;
   --card-text: #d7dae4;
   --card-sub-text: #afb1b9;
-  --gray: #050D16;
+  --gray: #050d16;
   --error: #ef4444;
 
   --link-color: #2563eb;
@@ -57,5 +56,86 @@
 body {
   background-color: var(--bg-primary);
   color: var(--text);
-  font-family: var(--font-poppins);
+  font-family: var(--font-manrope);
+}
+
+p {
+  line-height: 1.375;
+  letter-spacing: 0.025em;
+}
+
+/* Add this in your global CSS */
+.editor-toolbar {
+  @apply flex flex-wrap gap-1 p-2 bg-[var(--bg-secondary)] border-b border-[var(--border)] shadow-sm rounded-t-md;
+}
+.tool {
+  @apply cursor-pointer px-2 py-1 rounded text-[var(--text)] hover:bg-[var(--bg-primary)] transition;
+}
+.tool.active {
+  @apply bg-[var(--primary)] text-white;
+}
+
+/* global.css or scoped CSS for editor content */
+.editor-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.editor-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.65rem;
+}
+
+.editor-content h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.editor-content p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.editor-content a {
+  color: var(--link-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.editor-content a:hover {
+  color: var(--link-hover-color);
+}
+
+.editor-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.editor-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.prose {
+  max-width: none;
+}
+
+.editor-content hr {
+  @apply my-4 border-t border-[var(--border)];
+}
+
+/* GitHub-styled form elements */
+.form-label {
+  @apply block mb-1 text-sm font-medium text-[#1f2328];
+}
+
+.form-input {
+  @apply w-full px-3 py-2 text-sm border border-[#d0d7de] rounded-md bg-white text-[#1f2328] focus:outline-none focus:ring-2 focus:ring-blue-500;
 }

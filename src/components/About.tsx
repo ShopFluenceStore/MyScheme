@@ -18,9 +18,9 @@ const About: React.FC = () => {
           <div className="space-y-8">
             {/* Enhanced Section Title */}
             <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium bg-[var(--bg-secondary)] text-[var(--primary)]">
+              <div className="inline-flex items-center space-x-2 px-4 py-2 border border-[var(--border)] rounded-full text-sm font-medium bg-[var(--bg-secondary)] text-[var(--primary)]">
                 <div
-                  className="w-2 h-2 rounded-full"
+                  className="w-2 h-2 rounded-full leading-snug tracking-wide"
                   style={{ backgroundColor: "var(--primary)" }}
                 ></div>
                 <span>About myScheme</span>
@@ -39,7 +39,7 @@ const About: React.FC = () => {
 
             {/* Enhanced Content Paragraphs */}
             <div className="space-y-6 text-[var(--sub-text)]">
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-snug tracking-wide">
                 myScheme is Indias most comprehensive digital platform,
                 connecting millions of citizens with over{" "}
                 <strong className="font-semibold text-[var(--primary)]">
@@ -48,7 +48,7 @@ const About: React.FC = () => {
                 across all states and central ministries.
               </p>
 
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-snug tracking-wide">
                 Our AI-powered recommendation engine analyzes your profile to
                 suggest the most relevant schemes, eliminating the complexity of
                 navigating multiple government portals and ensuring you never
@@ -56,7 +56,7 @@ const About: React.FC = () => {
               </p>
 
               <div className="grid grid-cols-2 gap-6 py-4">
-                <div className="text-center p-4 rounded-lg bg-[var(--bg-secondary)]">
+                <div className="text-center p-4 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
                   <div className="text-2xl font-bold text-[var(--primary)]">
                     4,000+
                   </div>
@@ -64,7 +64,7 @@ const About: React.FC = () => {
                     Active Schemes
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-[var(--bg-secondary)]">
+                <div className="text-center p-4 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
                   <div className="text-2xl font-bold text-[var(--primary)]">
                     10M+
                   </div>

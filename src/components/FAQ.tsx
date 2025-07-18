@@ -144,7 +144,7 @@ const FAQ: React.FC<FAQProps> = ({
             >
               <div
                 className={cn(
-                  "inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium",
+                  "inline-flex items-center space-x-2 px-4 py-2 border border-[var(--border)] rounded-full text-sm font-medium",
                   "bg-[var(--bg-secondary)] text-[var(--primary)]",
                   "transition-colors duration-200"
                 )}

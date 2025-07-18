@@ -59,7 +59,7 @@ const ProcessSteps: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-[var(--bg-secondary)] text-[var(--primary)] rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 bg-[var(--bg-secondary)] text-[var(--primary)] border border-[var(--border)] rounded-full text-sm font-medium mb-4">
               <span>Simple Process</span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-[var(--text)] mb-4">
@@ -79,7 +79,7 @@ const ProcessSteps: React.FC = () => {
                 <React.Fragment key={step.id}>
                   {/* Step Card */}
                   <div className="flex-1 max-w-sm">
-                    <div className="bg-[var(--bg-primary)] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-[var(--border)] relative group">
+                    <div className="bg-[var(--bg-primary)] rounded-xl p-8 transition-all duration-300 border border-[var(--border)] relative group">
                       {/* Step Number */}
                       <div className="absolute -top-4 left-8 w-8 h-8 bg-[var(--primary)] text-[var(--bg-secondary)] rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
                         {step.id}
@@ -103,8 +103,8 @@ const ProcessSteps: React.FC = () => {
                   {/* Arrow between steps */}
                   {index < steps.length - 1 && (
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-[var(--primary)] rounded-full flex items-center justify-center shadow-lg">
-                        <ArrowRight className="w-6 h-6 text-[var(--bg-secondary)]" />
+                      <div className="w-12 h-12 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-full flex items-center justify-center shadow-lg">
+                        <ArrowRight className="w-6 h-6 text-[var(--primary)]" />
                       </div>
                     </div>
                   )}
@@ -117,9 +117,9 @@ const ProcessSteps: React.FC = () => {
               {steps.map((step, index) => (
                 <React.Fragment key={step.id}>
                   {/* Step Card */}
-                  <div className="bg-[var(--bg-primary)] rounded-2xl p-6 shadow-lg border border-[var(--border)] relative">
+                  <div className="bg-[var(--bg-primary)] rounded-xl p-6 transition-all duration-300 border border-[var(--border)] relative">
                     {/* Step Number */}
-                    <div className="absolute -top-3 left-6 w-6 h-6 bg-[var(--primary)] text-[var(--bg-secondary)] rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                    <div className="absolute -top-3 left-6 w-6 h-6 bg-[var(--bg-secondary)] text-[var(--primary)] border border-[var(--border)] rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
                       {step.id}
                     </div>
 
@@ -144,8 +144,8 @@ const ProcessSteps: React.FC = () => {
                   {/* Arrow between steps */}
                   {index < steps.length - 1 && (
                     <div className="flex justify-center">
-                      <div className="w-8 h-8 bg-[var(--primary)] rounded-full flex items-center justify-center shadow-md">
-                        <ArrowRight className="w-4 h-4 text-[var(--bg-secondary)] rotate-90" />
+                      <div className="w-8 h-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-full flex items-center justify-center shadow-md">
+                        <ArrowRight className="w-4 h-4 text-[var(--primary)] rotate-90" />
                       </div>
                     </div>
                   )}
@@ -154,7 +154,7 @@ const ProcessSteps: React.FC = () => {
             </div>
           </div>
 
-          {/* Call to Action */}
+          {/* Call to Action */} 
           <div className="text-center mt-12">
             <Button
               className="inline-flex items-center space-x-2 px-8 py-4 font-semibold text-md"
