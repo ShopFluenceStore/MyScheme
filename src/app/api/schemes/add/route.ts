@@ -55,3 +55,5 @@ export async function POST(req: NextRequest) {
     console.error('Error creating scheme:', err);
     return serverErrorResponse('Failed to create scheme');
   }
+
+}

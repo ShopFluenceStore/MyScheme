@@ -56,3 +56,4 @@ export async function POST(request: Request) {
     console.error('Signup error:', error);
     return serverErrorResponse('Failed to create account');
   }
+}

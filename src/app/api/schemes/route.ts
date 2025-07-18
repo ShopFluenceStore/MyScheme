@@ -47,3 +47,5 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching schemes:', error);
     return serverErrorResponse('Failed to fetch schemes');
   }
+
+}
