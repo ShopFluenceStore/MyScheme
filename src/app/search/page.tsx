@@ -9,23 +9,34 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { Scheme } from "@/types/scheme";
 
-type SearchFilter = {
+interface SearchResult {
+  type: 'scheme' | 'category' | 'tag' | 'state' | 'user';
+  id: string;
+  title: string;
+  description?: string;
+  category?: string;
+  url: string;
+  metadata?: any;
+}
+
+interface SearchFilter {
   query: string;
   category?: string;
   status?: 'active' | 'upcoming' | 'expired';
-};
+  type?: 'all' | 'schemes' | 'categories' | 'tags' | 'states' | 'users';
+}
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [schemes, setSchemes] = useState<Scheme[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<SearchFilter>({ query: '' });
+  const [filter, setFilter] = useState<SearchFilter>({ query: '', type: 'all' });
   const router = useRouter();
 
-  // Fetch schemes with error handling and abort controller
-  const fetchSchemes = useCallback(async () => {
+  // Fetch search results with error handling and abort controller
+  const fetchResults = useCallback(async () => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
@@ -37,8 +48,9 @@ const SearchPage = () => {
       if (filter.query) params.append('q', filter.query);
       if (filter.category) params.append('category', filter.category);
       if (filter.status) params.append('status', filter.status);
+      if (filter.type && filter.type !== 'all') params.append('type', filter.type);
 
-      const response = await fetch(`/api/schemes?${params.toString()}`, {
+      const response = await fetch(`/api/search?${params.toString()}`, {
         signal: controller.signal,
       });
 
@@ -47,13 +59,42 @@ const SearchPage = () => {
       }
 
       const data = await response.json();
-      setSchemes(Array.isArray(data) ? data : []);
+      
+      // Mock search results - replace with actual API response
+      const mockResults: SearchResult[] = [
+        {
+          type: 'scheme',
+          id: '1',
+          title: 'PM Kisan Samman Nidhi',
+          description: 'Income support scheme for farmers',
+          category: 'Agriculture',
+          url: '/schemes/1'
+        },
+        {
+          type: 'category',
+          id: 'education',
+          title: 'Education',
+          description: '45 schemes available',
+          url: '/schemes?category=education'
+        },
+        {
+          type: 'user',
+          id: 'johndoe',
+          title: 'John Doe',
+          description: 'Government schemes expert',
+          url: '/profile/johndoe'
+        }
+      ];
+      
+      setResults(filter.query ? mockResults.filter(r => 
+        r.title.toLowerCase().includes(filter.query.toLowerCase())
+      ) : []);
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
         console.error('Error fetching schemes:', err);
         const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
-        setError(`Failed to load schemes: ${errorMessage}`);
-        toast.error('Failed to load schemes');
+        setError(`Failed to load results: ${errorMessage}`);
+        toast.error('Failed to load search results');
       }
     } finally {
       clearTimeout(timeoutId);
@@ -63,8 +104,8 @@ const SearchPage = () => {
 
   // Initial data fetch
   useEffect(() => {
-    fetchSchemes();
-  }, [fetchSchemes]);
+    fetchResults();
+  }, [fetchResults]);
 
   // Debounced search
   useEffect(() => {
@@ -94,13 +135,9 @@ const SearchPage = () => {
     setFilter(prev => ({ ...prev, category }));
   };
 
-  const handleSchemeClick = (schemeId: string) => {
-    router.push(`/schemes/${schemeId}`);
-  };
-
   const clearSearch = () => {
     setSearchQuery("");
-    setFilter(prev => ({ ...prev, query: '' }));
+    setFilter(prev => ({ ...prev, query: '', type: 'all' }));
   };
 
   const removeRecentSearch = (e: React.MouseEvent, index: number) => {
@@ -108,19 +145,16 @@ const SearchPage = () => {
     setRecentSearches(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Filter schemes based on search query
-  const filteredSchemes = useMemo(() => {
-    if (!filter.query) return schemes;
-    
-    const query = filter.query.toLowerCase();
-    return schemes.filter(scheme => 
-      scheme.title.toLowerCase().includes(query) ||
-      scheme.description.toLowerCase().includes(query) ||
-      scheme.category.toLowerCase().includes(query) ||
-      scheme.ministry?.toLowerCase().includes(query) ||
-      scheme.tags?.some((tag: string) => tag.toLowerCase().includes(query))
-    );
-  }, [schemes, filter.query]);
+  const getResultIcon = (type: SearchResult['type']) => {
+    switch (type) {
+      case 'scheme': return '📄';
+      case 'category': return '📁';
+      case 'tag': return '🏷️';
+      case 'state': return '📍';
+      case 'user': return '👤';
+      default: return '🔍';
+    }
+  };
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
@@ -128,6 +162,32 @@ const SearchPage = () => {
         <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
           Search Government Schemes
         </h1>
+        
+        {/* Search Type Filter */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2">
+            {[
+              { key: 'all', label: 'All Results' },
+              { key: 'schemes', label: 'Schemes' },
+              { key: 'categories', label: 'Categories' },
+              { key: 'tags', label: 'Tags' },
+              { key: 'states', label: 'States' },
+              { key: 'users', label: 'Users' }
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setFilter(prev => ({ ...prev, type: key as any }))}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  filter.type === key
+                    ? 'bg-[var(--primary)] text-white'
+                    : 'bg-[var(--bg-secondary)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <form onSubmit={handleSearch} className="mb-8">
           <div className="relative">
@@ -203,6 +263,15 @@ const SearchPage = () => {
         </AnimatePresence>
 
         <div className="mt-12">
+          {/* Results Summary */}
+          {filter.query && (
+            <div className="mb-6">
+              <p className="text-[var(--sub-text)]">
+                Found {results.length} results for "{filter.query}"
+              </p>
+            </div>
+          )}
+          
           <h2 className="text-lg font-medium text-foreground mb-4">
             Popular Categories
           </h2>
@@ -238,51 +307,50 @@ const SearchPage = () => {
               <Button 
                 variant="outline" 
                 className="mt-4"
-                onClick={() => fetchSchemes()}
+                onClick={() => fetchResults()}
               >
                 Retry
               </Button>
             </div>
-          ) : filteredSchemes.length === 0 ? (
+          ) : results.length === 0 ? (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">
                 {filter.query 
-                  ? `No schemes found matching "${filter.query}"` 
-                  : 'No schemes available at the moment.'}
+                  ? `No results found matching "${filter.query}"` 
+                  : 'Start typing to search for schemes, categories, and more.'}
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="space-y-4">
               <AnimatePresence>
-                {filteredSchemes.map((scheme) => (
+                {results.map((result) => (
                   <motion.div
-                    key={scheme.id}
+                    key={`${result.type}-${result.id}`}
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
                     transition={{ duration: 0.3 }}
-                    whileHover={{
-                      y: -4,
-                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                    }}
-                    className="h-full"
+                    className="border border-[var(--border)] rounded-lg p-4 hover:bg-[var(--bg-secondary)] transition-colors cursor-pointer"
+                    onClick={() => router.push(result.url)}
                   >
-                    <SchemeCard
-                      id={scheme.id}
-                      title={scheme.title}
-                      description={scheme.description}
-                      category={scheme.category}
-                      state={scheme.state}
-                      deadline={scheme.deadline || ''}
-                      subCategory={scheme.subCategory}
-                      launchDate={scheme.launchDate}
-                      ministry={scheme.ministry}
-                      status={scheme.status}
-                      logo={scheme.logo}
-                      onClick={() => handleSchemeClick(scheme.id)}
-                      className="h-full"
-                    />
+                    <div className="flex items-start space-x-3">
+                      <span className="text-2xl">{getResultIcon(result.type)}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h3 className="font-medium text-[var(--text)]">{result.title}</h3>
+                          <span className="px-2 py-1 text-xs bg-[var(--bg-primary)] text-[var(--primary)] rounded-full border border-[var(--border)]">
+                            {result.type}
+                          </span>
+                        </div>
+                        {result.description && (
+                          <p className="text-sm text-[var(--sub-text)] mb-2">{result.description}</p>
+                        )}
+                        {result.category && (
+                          <span className="text-xs text-[var(--primary)]">{result.category}</span>
+                        )}
+                      </div>
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
