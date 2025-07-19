@@ -2,12 +2,12 @@
 
 ## Test User Account
 - **Email**: test@example.com
-- **Password**: password123
+- **Password**: Password123!
 - **Role**: user
 
 ## Test Admin Account
 - **Email**: admin@example.com
-- **Password**: admin123
+- **Password**: Admin123!
 - **Role**: admin
 
 ## Notes
@@ -24,7 +24,7 @@ If you need to manually create these users in MongoDB:
 {
   name: "Test User",
   email: "test@example.com",
-  password: "$2a$12$hashedPasswordHere", // bcrypt hash of "password123"
+  password: "$2a$12$hashedPasswordHere", // bcrypt hash of "Password123!"
   role: "user",
   avatar: "",
   bio: "Test user account",
@@ -38,7 +38,7 @@ If you need to manually create these users in MongoDB:
 {
   name: "Admin User", 
   email: "admin@example.com",
-  password: "$2a$12$hashedPasswordHere", // bcrypt hash of "admin123"
+  password: "$2a$12$hashedPasswordHere", // bcrypt hash of "Admin123!"
   role: "admin",
   avatar: "",
   bio: "Administrator account",
