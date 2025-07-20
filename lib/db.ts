@@ -50,7 +50,7 @@ async function dbConnect() {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: "your_db_name", // e.g., "codegenius"
+      dbName: "myscheme_db",
       bufferCommands: false,
     }).then((mongoose) => mongoose);
   }
