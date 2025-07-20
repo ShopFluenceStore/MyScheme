@@ -20,11 +20,11 @@ type MessageType = {
   text: string;
 };
 
-const AuthForm = ({ isSignUp = false }: { isSignUp?: boolean }) => {
+const AuthForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { status } = useSession();
-  const [isLogin, setIsLogin] = useState(!isSignUp);
+  const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [form, setForm] = useState<FormData>({
@@ -36,6 +36,12 @@ const AuthForm = ({ isSignUp = false }: { isSignUp?: boolean }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<MessageType>({ type: "", text: "" });
   const [errors, setErrors] = useState<Partial<FormData>>({});
+
+  // Check for signup parameter and set initial state
+  useEffect(() => {
+    const isSignUpParam = searchParams?.get("signup") === "true";
+    setIsLogin(!isSignUpParam);
+  }, [searchParams]);
 
   // Check for callback errors (like OAuth errors)
   useEffect(() => {
