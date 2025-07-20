@@ -1,6 +1,4 @@
 import React from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   User, 
@@ -17,8 +15,12 @@ import { Button } from "@/components/ui/Button";
 import SchemeCard from "@/components/schemes/SchemeCard";
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  // Demo user data
+  const demoUser = {
+    name: "Demo User",
+    email: "demo@example.com",
+    role: "admin"
+  };
 
   // Mock data - replace with actual API calls
   const userStats = {
@@ -56,26 +58,13 @@ export default function DashboardPage() {
     }
   ];
 
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--primary)]"></div>
-      </div>
-    );
-  }
-
-  if (status === "unauthenticated") {
-    router.push("/auth");
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Welcome Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-[var(--text)] mb-2">
-            Welcome back, {session?.user?.name || 'User'}!
+            Welcome back, {demoUser.name}!
           </h1>
           <p className="text-[var(--sub-text)]">
             Here's what's happening with your schemes and bookmarks

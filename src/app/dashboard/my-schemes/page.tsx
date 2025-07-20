@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
@@ -35,7 +34,13 @@ interface UserScheme {
 }
 
 export default function MySchemesPage() {
-  const { data: session, status } = useSession();
+  // Demo user
+  const demoUser = {
+    name: "Demo User",
+    email: "demo@example.com",
+    role: "admin"
+  };
+
   const router = useRouter();
   const [schemes, setSchemes] = useState<UserScheme[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,11 +48,6 @@ export default function MySchemesPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'draft' | 'published' | 'archived'>('all');
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth");
-      return;
-    }
-
     const fetchUserSchemes = async () => {
       try {
         // Mock data - replace with actual API call
@@ -88,10 +88,8 @@ export default function MySchemesPage() {
       }
     };
 
-    if (status === "authenticated") {
-      fetchUserSchemes();
-    }
-  }, [status, router]);
+    fetchUserSchemes();
+  }, []);
 
   const filteredSchemes = schemes.filter(scheme => {
     const matchesSearch = scheme.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

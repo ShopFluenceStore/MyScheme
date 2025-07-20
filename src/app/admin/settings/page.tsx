@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { 
   Save, 
@@ -42,8 +40,13 @@ interface SiteSettings {
 }
 
 export default function AdminSettingsPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  // Demo admin user
+  const demoUser = {
+    name: "Demo Admin",
+    email: "admin@example.com",
+    role: "admin"
+  };
+
   const [settings, setSettings] = useState<SiteSettings>({
     siteName: "MyScheme",
     siteDescription: "Government Schemes Portal for Citizens",
@@ -72,17 +75,6 @@ export default function AdminSettingsPage() {
   const [newKeyword, setNewKeyword] = useState("");
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth");
-      return;
-    }
-
-    // Check if user is admin
-    if (status === "authenticated" && !session?.user?.isAdmin) {
-      router.push("/dashboard");
-      return;
-    }
-
     // Load settings from API
     const loadSettings = async () => {
       try {
@@ -95,10 +87,8 @@ export default function AdminSettingsPage() {
       }
     };
 
-    if (status === "authenticated") {
-      loadSettings();
-    }
-  }, [status, router, session]);
+    loadSettings();
+  }, []);
 
   const handleSave = async () => {
     setLoading(true);

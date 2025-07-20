@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   Users, 
@@ -44,23 +42,17 @@ interface DashboardStats {
 }
 
 export default function AdminDashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  // Demo admin user
+  const demoUser = {
+    name: "Demo Admin",
+    email: "admin@example.com",
+    role: "admin"
+  };
+
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth");
-      return;
-    }
-
-    // Check if user is admin
-    if (status === "authenticated" && !session?.user?.isAdmin) {
-      router.push("/dashboard");
-      return;
-    }
-
     const fetchDashboardStats = async () => {
       try {
         // Mock data - replace with actual API call
@@ -114,10 +106,8 @@ export default function AdminDashboardPage() {
       }
     };
 
-    if (status === "authenticated") {
-      fetchDashboardStats();
-    }
-  }, [status, router, session]);
+    fetchDashboardStats();
+  }, []);
 
   const getActivityIcon = (type: string) => {
     switch (type) {

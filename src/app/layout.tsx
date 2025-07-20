@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MainLayout from "@/components/MainLayout";
 import { ThemeScript } from "@/components/ThemeScript";
-import Providers from "@/components/Providers"; // ✅ custom client wrapper
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +50,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
+        <ThemeProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1">
@@ -58,7 +58,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-        </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

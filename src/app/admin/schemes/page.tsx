@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   Plus, 
@@ -41,8 +39,13 @@ interface AdminScheme {
 }
 
 export default function AdminSchemesPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  // Demo admin user
+  const demoUser = {
+    name: "Demo Admin",
+    email: "admin@example.com",
+    role: "admin"
+  };
+
   const [schemes, setSchemes] = useState<AdminScheme[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,17 +53,6 @@ export default function AdminSchemesPage() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth");
-      return;
-    }
-
-    // Check if user is admin
-    if (status === "authenticated" && !session?.user?.isAdmin) {
-      router.push("/dashboard");
-      return;
-    }
-
     const fetchAllSchemes = async () => {
       try {
         // Mock data - replace with actual API call
@@ -111,10 +103,8 @@ export default function AdminSchemesPage() {
       }
     };
 
-    if (status === "authenticated") {
-      fetchAllSchemes();
-    }
-  }, [status, router, session]);
+    fetchAllSchemes();
+  }, []);
 
   const filteredSchemes = schemes.filter(scheme => {
     const matchesSearch = scheme.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

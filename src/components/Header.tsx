@@ -10,8 +10,8 @@ import {
   XIcon,
   ChevronDown,
   Search,
+  User,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 import Image from "next/image";
 import language from "/public/images/language.svg";
@@ -21,10 +21,16 @@ import SocialMedia from "./SocialMedia";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
-import UserDropdown from "./UserDropdown";
 
 const Header: React.FC = () => {
-  const { data: session } = useSession(); // ✅ get session
+  // Demo user - always logged in
+  const demoUser = {
+    name: "Demo User",
+    email: "demo@example.com",
+    role: "admin", // Give admin access to all features
+    avatar: "https://ui-avatars.com/api/?name=Demo+User&background=16a34a&color=fff"
+  };
+
   const [darkMode, setDarkMode] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -125,15 +131,23 @@ const Header: React.FC = () => {
             </div>
 
             {/* Conditionally Render */}
-            {!session && (
-              <Link href="/auth">
-                <Button variant="primary" className="flex items-center gap-1.5 px-4 text-sm">
-                  Sign In <ArrowRightIcon className="w-4 h-4" />
+            {/* Demo User Display */}
+            <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-secondary)]">
+                <div className="w-6 h-6 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-xs font-medium">
+                  D
+                </div>
+                <span className="text-sm font-medium text-[var(--text)]">
+                  {demoUser.name}
+                </span>
+              </div>
+              <Link href="/dashboard">
+                <Button variant="outline" size="sm" className="flex items-center gap-1.5">
+                  <User className="w-4 h-4" />
+                  Dashboard
                 </Button>
               </Link>
-            )}
-
-            {session && <UserDropdown />}
+            </div>
 
             {/* Theme Toggle */}
             <Button
