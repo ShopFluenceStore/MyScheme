@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   UserCircle,
@@ -16,7 +15,14 @@ import {
 } from "lucide-react";
 
 const UserDropdown: React.FC = () => {
-  const { data: session, status } = useSession();
+  // Demo user data
+  const demoUser = {
+    name: "Demo User",
+    email: "demo@example.com",
+    role: "admin",
+    image: null
+  };
+
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -31,12 +37,9 @@ const UserDropdown: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (status !== "authenticated") return null;
-
-  const user = session?.user || {};
-  const userInitial = user?.name?.charAt(0).toUpperCase() || 'U';
-  const userEmail = user?.email || '';
-  const userName = user?.name || 'User';
+  const userInitial = demoUser.name.charAt(0).toUpperCase();
+  const userEmail = demoUser.email;
+  const userName = demoUser.name;
 
   const menuItems = [
     { 
@@ -76,9 +79,9 @@ const UserDropdown: React.FC = () => {
         aria-haspopup="true"
       >
         <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-sm font-medium">
-          {user.image ? (
+          {demoUser.image ? (
             <Image
-              src={user.image}
+              src={demoUser.image}
               alt={userName}
               width={32}
               height={32}
@@ -136,13 +139,14 @@ const UserDropdown: React.FC = () => {
             <div className="p-2 border-t border-[var(--border)]">
               <button
                 onClick={() => {
-                  signOut({ callbackUrl: '/' });
+                  // Demo logout - just redirect to home
+                  window.location.href = '/';
                   setOpen(false);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Sign Out</span>
+                <span>Demo Logout</span>
               </button>
             </div>
           </motion.div>
