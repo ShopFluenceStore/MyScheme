@@ -1,18 +1,6 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse, NextRequest } from 'next/server';
 
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      id: string;
-      role: string;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    }
-  }
-}
-
 // List of public paths that don't require authentication
 const publicPaths = [
   '/signin', 
@@ -28,7 +16,8 @@ const publicPaths = [
   '/disclaimer',
   '/terms-and-conditions',
   '/accessibility-statement',
-  '/screen-reader'
+  '/screen-reader',
+  '/auth'
 ];
 
 // Admin-only paths
@@ -50,7 +39,8 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/static') ||
     pathname.includes('.') ||
-    pathname.startsWith('/images')
+    pathname.startsWith('/images') ||
+    pathname.startsWith('/favicon')
   ) {
     return NextResponse.next();
   }
@@ -62,7 +52,7 @@ export async function middleware(req: NextRequest) {
   
   // If user is logged in and tries to access auth pages, redirect to dashboard
   if (token && (pathname === '/signin' || pathname === '/signup' || pathname === '/auth')) {
-    const url = new URL('/dashboard', req.url);
+    const url = new URL('/', req.url);
     return NextResponse.redirect(url);
   }
   

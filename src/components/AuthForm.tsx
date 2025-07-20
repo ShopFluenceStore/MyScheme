@@ -110,24 +110,26 @@ const AuthForm = ({ isSignUp = false }: { isSignUp?: boolean }) => {
     try {
       if (isLogin) {
         // Handle Sign In
-        const result = (await signIn("credentials", {
+        const result = await signIn("credentials", {
           redirect: false,
           email: form.email.trim().toLowerCase(),
           password: form.password,
-          callbackUrl: "/",
-        })) as SignInResponse | undefined;
+        });
 
         if (result?.error) {
           setMessage({
             type: "error",
-            text: "Invalid email or password. Please try again."
+            text: "Invalid email or password. Please try again.",
           });
         } else {
-          // NextAuth will automatically redirect to home page
           setMessage({
             type: "success",
-            text: "Successfully logged in! Redirecting to home page..."
+            text: "Successfully logged in! Redirecting...",
           });
+          // Manual redirect after successful login
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
         }
       } else {
         // Handle Sign Up
@@ -158,25 +160,27 @@ const AuthForm = ({ isSignUp = false }: { isSignUp?: boolean }) => {
             });
 
             // Auto-login after successful registration
-            const signInResponse = await signIn("credentials", {
+            const result = await signIn("credentials", {
               redirect: false,
               email: form.email.trim().toLowerCase(),
               password: form.password,
-              callbackUrl: "/",
             });
 
-            if (signInResponse?.error) {
-              console.error("Auto-login error:", signInResponse.error);
+            if (result?.error) {
+              console.error("Auto-login error:", result.error);
               setMessage({
                 type: "error",
-                text: "Failed to log in after registration. Please try again.",
+                text: "Account created but failed to log in. Please try signing in manually.",
               });
             } else {
-              // NextAuth will handle the redirect to home page automatically
               setMessage({
                 type: "success",
-                text: "Successfully logged in! Redirecting..."
+                text: "Successfully logged in! Redirecting...",
               });
+              // Manual redirect after successful login
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 1000);
             }
           } else {
             // Handle signup errors

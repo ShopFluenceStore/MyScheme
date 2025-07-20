@@ -127,7 +127,7 @@ const Header: React.FC = () => {
             {/* Conditionally Render */}
             {!session && (
               <Link href="/auth">
-                <Button variant="primary" className="flex items-center gap-1.5 px-4">
+                <Button variant="primary" className="flex items-center gap-1.5 px-4 text-sm">
                   Sign In <ArrowRightIcon className="w-4 h-4" />
                 </Button>
               </Link>
